@@ -18,7 +18,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_alignParentLeft="true"
             android:text="Large Text"
-            android:id="@+id/textView" />
+            android:id="@+id/txt_contactname" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -26,7 +26,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_alignParentLeft="true"
             android:text="Large Text"
-            android:id="@+id/textView3" />
+            android:id="@+id/txt_lastcallduration" />
         </LinearLayout>
 
         <TextView
@@ -35,6 +35,6 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:layout_alignParentRight="true"
             android:text="Large Text"
-            android:id="@+id/textView2" />
+            android:id="@+id/txt_lastcallsince" />
     </RelativeLayout>
 </RelativeLayout>

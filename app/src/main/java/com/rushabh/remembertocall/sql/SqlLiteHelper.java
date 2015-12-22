@@ -33,10 +33,10 @@ public class SqlLiteHelper extends SQLiteOpenHelper{
     private static final String DATABASE_CREATE = "create table IF NOT EXISTS "
             + TABLE + "("
             + COLUMN_ID + " integer primary key , "
-            + COLUMN_DISPLAY_NAME + "text not null, "
-            + COLUMN_LAST_CALL_DATE + "integer not null,"
-            + COLUMN_LAST_CALL_DURATION + "integer not null"
-            + ";";
+            + COLUMN_DISPLAY_NAME + " text not null, "
+            + COLUMN_LAST_CALL_DATE + " integer not null,"
+            + COLUMN_LAST_CALL_DURATION + " integer not null"
+            + ");";
 
 
 
@@ -65,7 +65,7 @@ public class SqlLiteHelper extends SQLiteOpenHelper{
 
         // Inserting Row
         db.insert(TABLE, null, values);
-        db.close(); // Closing database connection
+        //db.close(); // Closing database connection
     }
 
     // Getting All Contacts
@@ -74,7 +74,7 @@ public class SqlLiteHelper extends SQLiteOpenHelper{
         // Select All Query
         String selectQuery = "SELECT  * FROM " + TABLE;
 
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         // looping through all rows and adding to list
@@ -99,7 +99,7 @@ public class SqlLiteHelper extends SQLiteOpenHelper{
         String countQuery = "SELECT  * FROM " + TABLE;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
-        cursor.close();
+        //cursor.close();
 
         // return count
         return cursor.getCount();
@@ -125,6 +125,6 @@ public class SqlLiteHelper extends SQLiteOpenHelper{
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE, COLUMN_ID + " = ?",
                 new String[] { String.valueOf(contact.getID()) });
-        db.close();
+        //db.close();
     }
 }

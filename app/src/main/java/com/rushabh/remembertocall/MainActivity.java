@@ -13,14 +13,18 @@ import android.provider.ContactsContract;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.telecom.Call;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.rushabh.remembertocall.adapter.ContactAdapter;
 import com.rushabh.remembertocall.model.Contact;
 import com.rushabh.remembertocall.sql.SqlLiteHelper;
 
@@ -30,6 +34,7 @@ import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
@@ -42,19 +47,26 @@ public class MainActivity extends AppCompatActivity {
     String displayName;
     long daySinceLastCall;
     int lastCallDuration;
-    SqlLiteHelper sql = new SqlLiteHelper(getApplicationContext());
+    SqlLiteHelper sql;
 
     RecyclerView contactListView;
     TextView noContact;
+    ContactAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        sql =  new SqlLiteHelper(getApplicationContext());
         int contactCount = sql.getContactsCount();
 
 
         contactListView = (RecyclerView)findViewById(R.id.phone_list);
+        contactListView.setHasFixedSize(true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        contactListView.setLayoutManager(layoutManager);
+        contactListView.setItemAnimator(new DefaultItemAnimator());
+
         noContact = (TextView)findViewById(R.id.txt_nocontact);
 
         if(contactCount == 0){
@@ -64,6 +76,12 @@ public class MainActivity extends AppCompatActivity {
         } else{
             contactListView.setVisibility(View.VISIBLE);
             noContact.setVisibility(View.GONE);
+
+            ArrayList<Contact> contacts = (ArrayList) sql.getAllContacts();
+
+            adapter = new ContactAdapter(contacts);
+            contactListView.setAdapter(adapter);
+
         }
     }
 
