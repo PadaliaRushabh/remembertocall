@@ -25,6 +25,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.melnykov.fab.FloatingActionButton;
 import com.rushabh.remembertocall.adapter.ContactAdapter;
 import com.rushabh.remembertocall.model.Contact;
 import com.rushabh.remembertocall.sql.SqlLiteHelper;
@@ -92,6 +93,18 @@ public class MainActivity extends AppCompatActivity {
         ItemTouchHelper.Callback callback = new TouchHelper(adapter);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(contactListView);
+
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.attachToRecyclerView(contactListView);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForResult(new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI), REQUEST_CODE_PICK_CONTACTS);
+            }
+        });
+
 
     }
 
