@@ -84,24 +84,11 @@ public class MainActivity extends AppCompatActivity {
 
             ArrayList<Contact> contacts = (ArrayList) sql.getAllContacts();
 
-            adapter = new ContactAdapter(contacts);
+            adapter = new ContactAdapter(contacts, sql);
             contactListView.setAdapter(adapter);
 
         }
 
-  /*      ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0 , ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT){
-
-            @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                adapter.removeContact(viewHolder.getAdapterPosition());
-
-            }
-        };*/
         ItemTouchHelper.Callback callback = new TouchHelper(adapter);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(contactListView);
@@ -155,7 +142,6 @@ public class MainActivity extends AppCompatActivity {
 
             Contact contact = new Contact(id , displayName, daySinceLastCall,lastCallDuration);
 
-            sql.addContact(contact);
             adapter.addContact(contact);
             adapter.notifyDataSetChanged();
 

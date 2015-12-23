@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.rushabh.remembertocall.R;
 import com.rushabh.remembertocall.model.Contact;
+import com.rushabh.remembertocall.sql.SqlLiteHelper;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -27,10 +28,11 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.CustomVi
     private static final int PERMISSION_FOR_DURATION_DENIED = -2;
     private static final int CANNOT_ASK_FOR_PERMISSION_ON_RUNTIME = -3;
     private static final int TODAY = 0;
+    SqlLiteHelper sql;
 
-
-    public ContactAdapter(ArrayList<Contact> contacts){
+    public ContactAdapter(ArrayList<Contact> contacts , SqlLiteHelper sql){
         this.contacts = contacts;
+        this.sql = sql;
     }
 
     @Override
@@ -47,9 +49,12 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.CustomVi
 
     public void  addContact(Contact contact){
         this.contacts.add(contact);
+        sql.addContact(contact);
     }
 
     public void removeContact(int position){
+        sql.deleteContact(this.contacts.get(position));
+
         this.contacts.remove(position);
         notifyItemRemoved(position);
     }

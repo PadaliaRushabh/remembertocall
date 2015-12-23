@@ -28,7 +28,5 @@ public class TouchHelper extends ItemTouchHelper.SimpleCallback {
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
         adapter.removeContact(viewHolder.getAdapterPosition());
 
-        //TODO:REMOVE FROM SQL
-
     }
 }
