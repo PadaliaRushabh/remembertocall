@@ -1,15 +1,14 @@
 package com.rushabh.remembertocall;
 
 import android.Manifest;
-import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.CallLog;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,23 +16,19 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.telecom.Call;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.melnykov.fab.FloatingActionButton;
 import com.rushabh.remembertocall.adapter.ContactAdapter;
 import com.rushabh.remembertocall.model.Contact;
 import com.rushabh.remembertocall.sql.SqlLiteHelper;
-import com.rushabh.remembertocall.touchHepler.TouchHelper;
+import com.rushabh.remembertocall.touchHelper.TouchHelper;
 
 import org.joda.time.DateTime;
 import org.joda.time.Days;
-import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 
 import java.text.SimpleDateFormat;
@@ -120,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         if (id == R.id.action_setting) {
 
-            startActivityForResult(new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI), REQUEST_CODE_PICK_CONTACTS);
+            //startActivityForResult(new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI), REQUEST_CODE_PICK_CONTACTS);
             //return true;
         }
 
@@ -134,31 +129,36 @@ public class MainActivity extends AppCompatActivity {
             uriContact = data.getData();
             cursor = getApplicationContext().getContentResolver().query(uriContact, null, null, null, null);
 
-            if (cursor.moveToFirst()) {
-                id = Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts._ID)));
-                displayName = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.DISPLAY_NAME));
-                daySinceLastCall = Long.parseLong(cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.LAST_TIME_CONTACTED)));
-
-                //Check if contact was ever contacted
-                if (daySinceLastCall != 0) {
-                    DateTime endDate = new DateTime();
-                    DateTime startDate = DateTime.parse(getDate(daySinceLastCall), DateTimeFormat.forPattern("dd/MM/yyyy"));
-                    daySinceLastCall = Days.daysBetween(startDate, endDate).getDays();
-
-                    lastCallDuration = getDuration(displayName);
-                } else {
-                    daySinceLastCall = NEVER_CONTACTED;
-                    lastCallDuration = NEVER_CONTACTED;
-                }
-
-            }
-
-            Contact contact = new Contact(id , displayName, daySinceLastCall,lastCallDuration);
+            Contact contact = getContact(cursor);
 
             adapter.addContact(contact);
             adapter.notifyDataSetChanged();
 
         }
+    }
+
+    @NonNull
+    public Contact getContact(Cursor cursor) {
+        if (cursor.moveToFirst()) {
+            id = Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts._ID)));
+            displayName = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.DISPLAY_NAME));
+            daySinceLastCall = Long.parseLong(cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.LAST_TIME_CONTACTED)));
+
+            //Check if contact was ever contacted
+            if (daySinceLastCall != 0) {
+                DateTime endDate = new DateTime();
+                DateTime startDate = DateTime.parse(getDate(daySinceLastCall), DateTimeFormat.forPattern("dd/MM/yyyy"));
+                daySinceLastCall = Days.daysBetween(startDate, endDate).getDays();
+
+                lastCallDuration = getDuration(displayName);
+            } else {
+                daySinceLastCall = NEVER_CONTACTED;
+                lastCallDuration = NEVER_CONTACTED;
+            }
+
+        }
+
+        return new Contact(id , displayName, daySinceLastCall,lastCallDuration);
     }
 
     private String getDate(long milliSeconds){

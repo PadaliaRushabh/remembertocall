@@ -1,10 +1,12 @@
 package com.rushabh.remembertocall.sql;
 
+import android.app.DownloadManager;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.provider.ContactsContract;
 
 import com.rushabh.remembertocall.model.Contact;
 
@@ -24,6 +26,7 @@ public class SqlLiteHelper extends SQLiteOpenHelper{
 
     private static final String DATABASE_NAME = "Contact.db";
     private static final int DATABASE_VERSION = 2;
+    Cursor cursor;
 
     public SqlLiteHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
