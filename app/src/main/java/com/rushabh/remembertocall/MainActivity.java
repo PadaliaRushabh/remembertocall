@@ -41,6 +41,9 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE_PICK_CONTACTS = 1;
     private static final int MY_PERMISSIONS_REQUEST_CALL_CONTACTS = 2;
+    private static final int NEVER_CONTACTED = -1;
+    private static final int PERMISSION_FOR_DURATION_DENIED = -2;
+    private static final int CANNOT_ASK_FOR_PERMISSION_ON_RUNTIME = -3;
     Uri uriContact;
     Cursor cursor;
     int id;
@@ -116,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
                 displayName = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.DISPLAY_NAME));
                 daySinceLastCall = Long.parseLong(cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.LAST_TIME_CONTACTED)));
 
+                //Check if contact was ever contacted
                 if (daySinceLastCall != 0) {
                     DateTime endDate = new DateTime();
                     DateTime startDate = DateTime.parse(getDate(daySinceLastCall), DateTimeFormat.forPattern("dd/MM/yyyy"));
@@ -123,8 +127,8 @@ public class MainActivity extends AppCompatActivity {
 
                     lastCallDuration = getDuration(displayName);
                 } else {
-                    daySinceLastCall = 0;
-                    lastCallDuration = 0;
+                    daySinceLastCall = NEVER_CONTACTED;
+                    lastCallDuration = NEVER_CONTACTED;
                 }
 
             }
@@ -163,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
                 requestPermissions(new String[]{Manifest.permission.READ_CALL_LOG},
                         MY_PERMISSIONS_REQUEST_CALL_CONTACTS);
             } else{
-                return -1;
+                return CANNOT_ASK_FOR_PERMISSION_ON_RUNTIME;
             }
 
         }
@@ -189,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
                 getDuration(displayName);
                 break;
             default:
-                lastCallDuration = -1;
+                lastCallDuration = PERMISSION_FOR_DURATION_DENIED;
         }
     }
 }

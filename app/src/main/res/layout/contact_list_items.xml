@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_alignParentLeft="true"
-            android:text="Large Text"
+            android:text="Rushabh Padalia"
             android:id="@+id/txt_contactname" />
 
         <TextView
@@ -25,8 +25,8 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_alignParentLeft="true"
-            android:text="Large Text"
-            android:id="@+id/txt_lastcallduration" />
+            android:text="20 Days Ago"
+            android:id="@+id/txt_lastcallsince" />
         </LinearLayout>
 
         <TextView
@@ -34,7 +34,15 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:layout_alignParentRight="true"
-            android:text="Large Text"
-            android:id="@+id/txt_lastcallsince" />
+            android:text="20 Dec"
+            android:id="@+id/txt_lastcalldate" />
+
+       <!-- <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_alignParentRight="true"
+            android:text="20 Dec"
+            android:id="@+id/txt_lastcallduration" /> -->
     </RelativeLayout>
 </RelativeLayout>
