@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.telecom.Call;
 import android.util.Log;
 import android.view.Menu;
@@ -27,6 +28,7 @@ import android.widget.TextView;
 import com.rushabh.remembertocall.adapter.ContactAdapter;
 import com.rushabh.remembertocall.model.Contact;
 import com.rushabh.remembertocall.sql.SqlLiteHelper;
+import com.rushabh.remembertocall.touchHepler.TouchHelper;
 
 import org.joda.time.DateTime;
 import org.joda.time.Days;
@@ -86,6 +88,24 @@ public class MainActivity extends AppCompatActivity {
             contactListView.setAdapter(adapter);
 
         }
+
+  /*      ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0 , ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT){
+
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                adapter.removeContact(viewHolder.getAdapterPosition());
+
+            }
+        };*/
+        ItemTouchHelper.Callback callback = new TouchHelper(adapter);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
+        itemTouchHelper.attachToRecyclerView(contactListView);
+
     }
 
     @Override

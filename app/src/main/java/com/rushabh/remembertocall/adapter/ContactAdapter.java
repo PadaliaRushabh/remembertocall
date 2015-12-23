@@ -49,6 +49,11 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.CustomVi
         this.contacts.add(contact);
     }
 
+    public void removeContact(int position){
+        this.contacts.remove(position);
+        notifyItemRemoved(position);
+    }
+
     @Override
     public void onBindViewHolder(CustomViewHolder holder, int position) {
         TextView contactName = holder.contactName;
