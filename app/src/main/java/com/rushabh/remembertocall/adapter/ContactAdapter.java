@@ -23,6 +23,10 @@ import java.util.ArrayList;
 public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.CustomViewHolder> {
 
     ArrayList<Contact> contacts;
+    private static final int NEVER_CONTACTED = -1;
+    private static final int PERMISSION_FOR_DURATION_DENIED = -2;
+    private static final int CANNOT_ASK_FOR_PERMISSION_ON_RUNTIME = -3;
+    private static final int TODAY = 0;
 
 
     public ContactAdapter(ArrayList<Contact> contacts){
@@ -47,18 +51,32 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.CustomVi
         TextView lastCallDate = holder.lastCallDate;
         TextView lastCallSince = holder.lastCallSince;
 
-        String str_lastCallSince = contacts.get(position).getDaySinceLastCall() + " days ago";
+        String str_lastCallSince;
+        String str_dateSinceLastCall;
+
+        DateTime currentDate = new DateTime();
+        DateTimeFormatter df  =  DateTimeFormat.forPattern("dd MMM");
+
+        switch ( Integer.parseInt(contacts.get(position).getDaySinceLastCall() + "")){
+            case TODAY:
+                str_lastCallSince = "Today";
+                str_dateSinceLastCall = df.print(currentDate);
+                break;
+            case NEVER_CONTACTED:
+                str_lastCallSince = "Never";
+                str_dateSinceLastCall = "Never";
+                break;
+            default:
+                str_lastCallSince = contacts.get(position).getDaySinceLastCall() + " days ago";
+
+                currentDate = currentDate.minusDays(Integer.parseInt(contacts.get(position).getDaySinceLastCall() + ""));
+                str_dateSinceLastCall = df.print(currentDate);
+                break;
+        }
+
 
         contactName.setText(contacts.get(position).getDisplayName());
         lastCallSince.setText(str_lastCallSince);
-
-        DateTime currentDate = new DateTime();
-
-        currentDate = currentDate.minusDays(Integer.parseInt(contacts.get(position).getDaySinceLastCall() + ""));
-
-        DateTimeFormatter df  =  DateTimeFormat.forPattern("dd MMM");
-        String str_dateSinceLastCall = df.print(currentDate);
-
         lastCallDate.setText(str_dateSinceLastCall);
 
     }

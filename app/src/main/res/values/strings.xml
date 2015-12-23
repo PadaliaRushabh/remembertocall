@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">Remember To Call</string>
     <string name="action_add_contact"> Add </string>
-    <string name="nocontact">No Contact</string>
+    <string name="nocontact">No Contacts Added</string>
 </resources>
