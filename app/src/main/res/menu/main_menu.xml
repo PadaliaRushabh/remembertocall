@@ -2,8 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_add_contact"
-        android:title="@string/action_add_contact"
+        android:id="@+id/action_setting"
+        android:icon="@android:drawable/ic_menu_preferences"
+        android:title="@string/action_setting"
         android:orderInCategory="100"
         app:showAsAction="always" />
 </menu>
