@@ -136,6 +136,8 @@ public class MainActivity extends AppCompatActivity {
             Contact contact = new Contact(id , displayName, daySinceLastCall,lastCallDuration);
 
             sql.addContact(contact);
+            adapter.addContact(contact);
+            adapter.notifyDataSetChanged();
 
         }
     }

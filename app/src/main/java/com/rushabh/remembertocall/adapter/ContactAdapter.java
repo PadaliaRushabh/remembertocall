@@ -45,6 +45,10 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.CustomVi
         return viewHolder;
     }
 
+    public void  addContact(Contact contact){
+        this.contacts.add(contact);
+    }
+
     @Override
     public void onBindViewHolder(CustomViewHolder holder, int position) {
         TextView contactName = holder.contactName;
