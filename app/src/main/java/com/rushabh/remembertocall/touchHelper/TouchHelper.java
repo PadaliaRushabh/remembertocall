@@ -27,6 +27,7 @@ public class TouchHelper extends ItemTouchHelper.SimpleCallback {
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
         adapter.removeContact(viewHolder.getAdapterPosition());
+        //TODO:Show no contact if no contacts are left
 
     }
 }

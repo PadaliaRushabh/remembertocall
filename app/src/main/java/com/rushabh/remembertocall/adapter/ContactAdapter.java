@@ -1,5 +1,6 @@
 package com.rushabh.remembertocall.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.rushabh.remembertocall.MainActivity;
 import com.rushabh.remembertocall.R;
 import com.rushabh.remembertocall.model.Contact;
 import com.rushabh.remembertocall.sql.SqlLiteHelper;
@@ -29,10 +31,27 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.CustomVi
     private static final int CANNOT_ASK_FOR_PERMISSION_ON_RUNTIME = -3;
     private static final int TODAY = 0;
     SqlLiteHelper sql;
+    private int contactCount = 0;
+
 
     public ContactAdapter(ArrayList<Contact> contacts , SqlLiteHelper sql){
         this.contacts = contacts;
         this.sql = sql;
+    }
+
+
+    public void ViewVisibilityToggle(RecyclerView recyclerView , TextView textView) {
+        contactCount = sql.getContactsCount();
+
+        if(contactCount == 0){
+            recyclerView.setVisibility(View.GONE);
+            textView.setVisibility(View.VISIBLE);
+
+        } else{
+            recyclerView.setVisibility(View.VISIBLE);
+            textView.setVisibility(View.GONE);
+
+        }
     }
 
     @Override

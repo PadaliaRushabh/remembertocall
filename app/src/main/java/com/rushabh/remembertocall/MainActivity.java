@@ -53,13 +53,14 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView contactListView;
     TextView noContact;
     ContactAdapter adapter;
+    int contactCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         sql =  new SqlLiteHelper(getApplicationContext());
-        int contactCount = sql.getContactsCount();
+
 
 
         contactListView = (RecyclerView)findViewById(R.id.phone_list);
@@ -74,15 +75,7 @@ public class MainActivity extends AppCompatActivity {
         adapter = new ContactAdapter(contacts, sql);
         contactListView.setAdapter(adapter);
 
-        if(contactCount == 0){
-            contactListView.setVisibility(View.GONE);
-            noContact.setVisibility(View.VISIBLE);
-
-        } else{
-            contactListView.setVisibility(View.VISIBLE);
-            noContact.setVisibility(View.GONE);
-
-        }
+        adapter.ViewVisibilityToggle(contactListView, noContact);
 
         ItemTouchHelper.Callback callback = new TouchHelper(adapter);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
@@ -101,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -132,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
 
             adapter.addContact(contact);
             adapter.notifyDataSetChanged();
+            adapter.ViewVisibilityToggle(contactListView, noContact);
 
         }
     }
