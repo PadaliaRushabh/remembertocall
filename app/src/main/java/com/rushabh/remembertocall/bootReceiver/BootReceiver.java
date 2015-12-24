@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import java.util.Calendar;
 
@@ -12,9 +13,12 @@ import java.util.Calendar;
  * Created by rushabh on 24/12/15.
  */
 public class BootReceiver extends BroadcastReceiver {
+    final int UPDATE_DATABASE_REQUEST_CODE = 10;
     @Override
     public void onReceive(Context context, Intent intent) {
-        if(intent.getAction().equals("android.intent.action.BOOT_COMPLETED")){
+        if(intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED) || intent.getAction().equals(Intent.ACTION_MY_PACKAGE_REPLACED) ){
+
+            Log.i("name", intent.getAction());
             // Set the alarm to start at approximately 1:00 a.m.
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(System.currentTimeMillis());
@@ -26,7 +30,7 @@ public class BootReceiver extends BroadcastReceiver {
             PendingIntent updateDatabaseIntent;
 
             Intent updateIntent = new Intent(context, UpdateDatabaseReceiver.class);
-            updateDatabaseIntent = PendingIntent.getBroadcast(context, 0, updateIntent, 0);
+            updateDatabaseIntent = PendingIntent.getBroadcast(context, UPDATE_DATABASE_REQUEST_CODE, updateIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
             alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                     AlarmManager.INTERVAL_DAY, updateDatabaseIntent);

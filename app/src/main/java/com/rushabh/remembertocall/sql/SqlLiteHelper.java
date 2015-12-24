@@ -25,7 +25,7 @@ public class SqlLiteHelper extends SQLiteOpenHelper{
     public static final String COLUMN_LAST_CALL_DURATION = "last_call_duration";
 
     private static final String DATABASE_NAME = "Contact.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
     Cursor cursor;
 
     public SqlLiteHelper(Context context){

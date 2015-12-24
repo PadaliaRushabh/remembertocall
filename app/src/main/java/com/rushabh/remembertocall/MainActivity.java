@@ -70,6 +70,10 @@ public class MainActivity extends AppCompatActivity {
 
         noContact = (TextView)findViewById(R.id.txt_nocontact);
 
+        ArrayList<Contact> contacts = (ArrayList) sql.getAllContacts();
+        adapter = new ContactAdapter(contacts, sql);
+        contactListView.setAdapter(adapter);
+
         if(contactCount == 0){
             contactListView.setVisibility(View.GONE);
             noContact.setVisibility(View.VISIBLE);
@@ -77,11 +81,6 @@ public class MainActivity extends AppCompatActivity {
         } else{
             contactListView.setVisibility(View.VISIBLE);
             noContact.setVisibility(View.GONE);
-
-            ArrayList<Contact> contacts = (ArrayList) sql.getAllContacts();
-
-            adapter = new ContactAdapter(contacts, sql);
-            contactListView.setAdapter(adapter);
 
         }
 

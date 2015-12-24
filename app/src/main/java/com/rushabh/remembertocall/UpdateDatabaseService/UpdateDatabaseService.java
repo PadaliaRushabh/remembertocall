@@ -12,6 +12,7 @@ import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 
 import com.rushabh.remembertocall.model.Contact;
 import com.rushabh.remembertocall.sql.SqlLiteHelper;
@@ -36,6 +37,7 @@ public class UpdateDatabaseService extends Service{
     private static final int MY_PERMISSIONS_REQUEST_CALL_CONTACTS = 2;
     private static final int CANNOT_ASK_FOR_PERMISSION_FROM_SERVICE = -4;
     private static final int NEVER_CONTACTED = -1;
+    private static final int DURATION_NOT_AVAILABLE = -5 ;
 
     private boolean isRunning  = false;
     SqlLiteHelper sql;
@@ -66,16 +68,21 @@ public class UpdateDatabaseService extends Service{
 
                 for(Contact contact : contacts){
 
-                    String params   = contact.getID() + "";
-                    cursor = getApplicationContext().getContentResolver().query(
+                    try {
+                        String params   = contact.getID() + "";
+                        cursor = getApplicationContext().getContentResolver().query(
                             ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                             null,
                             ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
                             new String[]{params}, null);
-                    while (cursor.moveToNext()){
+
 
                         updateContacts.add(getContact(cursor));
+
+                    } catch (Exception ex){
+                        ex.printStackTrace();
                     }
+
                 }
 
                 stopSelf();
@@ -92,6 +99,9 @@ public class UpdateDatabaseService extends Service{
             displayName = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.DISPLAY_NAME));
             daySinceLastCall = Long.parseLong(cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.LAST_TIME_CONTACTED)));
 
+/*            Log.v("id" , id+"");
+            Log.v("displayName" , displayName+"");
+            Log.v("daySinceLastCall" , daySinceLastCall+"");*/
             //Check if contact was ever contacted
             if (daySinceLastCall != 0) {
                 DateTime endDate = new DateTime();
@@ -142,7 +152,11 @@ public class UpdateDatabaseService extends Service{
 
         Cursor cur = getApplicationContext().getContentResolver().query(CallLog.Calls.CONTENT_URI, null, selection, args, null);
         if(cur.moveToFirst()) {
-            String duration = cur.getString(cur.getColumnIndexOrThrow(CallLog.Calls.DURATION));
+            String duration = cur.getString(cur.getColumnIndex(CallLog.Calls.DURATION));
+            if(duration.equals("-1")){
+                return DURATION_NOT_AVAILABLE;
+            }
+            //Log.v("Duration" , duration);
             return Integer.parseInt(duration);
         }
         return 0;
