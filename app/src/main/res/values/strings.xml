@@ -8,5 +8,10 @@
     <string name="preference_key_reminder">preference_key_reminder</string>
     <string name="setting_activity">Settings</string>
 
-    <string name="setting_label_reminder">Days</string>
+    <string name="setting_label_reminder">Remind me every</string>
+    <string name="setting_label_reminder_days">Days</string>
+
+    <string name="setting_label_notification">Enable daily notifications</string>
 </resources>
+
+

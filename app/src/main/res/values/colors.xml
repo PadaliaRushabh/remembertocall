@@ -2,6 +2,6 @@
 <resources>
     <color name="colorPrimary">#354b1c</color>
     <color name="colorPrimaryDark">#203512</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#1b6303</color>
     <color name="appBackground">#F1F8E9</color>
 </resources>
