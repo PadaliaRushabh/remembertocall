@@ -5,4 +5,5 @@
     <string name="service_name">UpdateDatabaseService</string>
     <string name="preference_file_name">com.rushabh.remembertocall.preference_key</string>
     <string name="preference_key">isFirstLaunch</string>
+    <string name="preference_key_reminder">preference_key_reminder</string>
 </resources>

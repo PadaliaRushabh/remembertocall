@@ -16,6 +16,8 @@ import android.util.Log;
 
 import com.rushabh.remembertocall.adapter.ContactAdapter;
 import com.rushabh.remembertocall.model.Contact;
+import com.rushabh.remembertocall.notification.ContactNotification;
+import com.rushabh.remembertocall.sharedPreferenceHelper.SharedPreferenceHelper;
 import com.rushabh.remembertocall.sql.SqlLiteHelper;
 
 import org.joda.time.DateTime;
@@ -51,6 +53,13 @@ public class UpdateDatabaseService extends Service{
     private int lastCallDuration;
     private ContactAdapter adapter;
 
+    boolean callNotification = false;
+    SharedPreferenceHelper sharedPreferenceHelper;
+    int reminderDays;
+    int contactToCall = 0;
+
+    ContactNotification contactNotification;
+
 
     @Override
     public void onCreate() {
@@ -60,6 +69,8 @@ public class UpdateDatabaseService extends Service{
         contacts = (ArrayList) sql.getAllContacts();
         updateContacts = new ArrayList<Contact>();
 
+        sharedPreferenceHelper = new SharedPreferenceHelper(getApplicationContext());
+        reminderDays = sharedPreferenceHelper.readReminder();
 
     }
 
@@ -97,6 +108,15 @@ public class UpdateDatabaseService extends Service{
 
             }
         }).start();
+
+        if(callNotification){
+
+            contactNotification = new ContactNotification(getApplicationContext() , contactToCall);
+            contactNotification.sendNotification();
+
+            callNotification = false;
+
+        }
         return  START_STICKY;
     }
 
@@ -122,6 +142,11 @@ public class UpdateDatabaseService extends Service{
                 lastCallDuration = NEVER_CONTACTED;
             }
 
+        }
+
+        if(daySinceLastCall >= reminderDays){
+            contactToCall++;
+            callNotification = true;
         }
 
         return new Contact(id, displayName, daySinceLastCall,lastCallDuration);

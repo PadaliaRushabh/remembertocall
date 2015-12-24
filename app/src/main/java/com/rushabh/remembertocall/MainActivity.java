@@ -25,6 +25,7 @@ import com.melnykov.fab.FloatingActionButton;
 import com.rushabh.remembertocall.UpdateDatabaseService.UpdateDatabaseService;
 import com.rushabh.remembertocall.adapter.ContactAdapter;
 import com.rushabh.remembertocall.model.Contact;
+import com.rushabh.remembertocall.notification.ContactNotification;
 import com.rushabh.remembertocall.sharedPreferenceHelper.SharedPreferenceHelper;
 import com.rushabh.remembertocall.sql.SqlLiteHelper;
 import com.rushabh.remembertocall.touchHelper.TouchHelper;
@@ -64,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         sql =  new SqlLiteHelper(getApplicationContext());
+        sharedPreferenceHelper = new SharedPreferenceHelper(getApplicationContext());
 
         widgetInit();
 
@@ -76,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
         ActionButtonInit();
 
         setDatabaseServiceIfFirstLaunch();
-
 
     }
 
@@ -115,11 +116,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setDatabaseServiceIfFirstLaunch() {
-        sharedPreferenceHelper = new SharedPreferenceHelper(getApplicationContext());
 
-        if(sharedPreferenceHelper.read() == true){
+        if(sharedPreferenceHelper.readFirstLaunch() == true){
 
-            sharedPreferenceHelper.write();
+            sharedPreferenceHelper.writeFirstLaunch();
             Intent i= new Intent(getApplicationContext(), UpdateDatabaseService.class);
             getApplicationContext().startService(i);
         }
