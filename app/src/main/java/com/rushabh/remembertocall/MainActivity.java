@@ -138,8 +138,8 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         if (id == R.id.action_setting) {
 
-            //startActivityForResult(new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI), REQUEST_CODE_PICK_CONTACTS);
-            //return true;
+            Intent intent = new Intent(this , SettingActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
