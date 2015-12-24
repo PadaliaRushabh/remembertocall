@@ -1,4 +1,4 @@
-package com.rushabh.remembertocall.bootReceiver;
+package com.rushabh.remembertocall.updateDatabaseServiceReceiver;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -12,7 +12,7 @@ import java.util.Calendar;
 /**
  * Created by rushabh on 24/12/15.
  */
-public class BootReceiver extends BroadcastReceiver {
+public class ActionReceiver extends BroadcastReceiver {
     final int UPDATE_DATABASE_REQUEST_CODE = 10;
     @Override
     public void onReceive(Context context, Intent intent) {

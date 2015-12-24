@@ -22,8 +22,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.melnykov.fab.FloatingActionButton;
+import com.rushabh.remembertocall.UpdateDatabaseService.UpdateDatabaseService;
 import com.rushabh.remembertocall.adapter.ContactAdapter;
 import com.rushabh.remembertocall.model.Contact;
+import com.rushabh.remembertocall.sharedPreferenceHelper.SharedPreferenceHelper;
 import com.rushabh.remembertocall.sql.SqlLiteHelper;
 import com.rushabh.remembertocall.touchHelper.TouchHelper;
 
@@ -53,16 +55,38 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView contactListView;
     TextView noContact;
     ContactAdapter adapter;
-    int contactCount = 0;
+
+    SharedPreferenceHelper sharedPreferenceHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         sql =  new SqlLiteHelper(getApplicationContext());
 
+        widgetInit();
+
+        AdapterInit();
+
+        adapter.viewVisibilityToggle(contactListView, noContact);
+
+        SwipeInit();
+
+        ActionButtonInit();
+
+        setDatabaseServiceIfFirstLaunch();
 
 
+    }
+
+    private void AdapterInit() {
+        ArrayList<Contact> contacts = (ArrayList) sql.getAllContacts();
+        adapter = new ContactAdapter(contacts, sql);
+        contactListView.setAdapter(adapter);
+    }
+
+    private void widgetInit() {
         contactListView = (RecyclerView)findViewById(R.id.phone_list);
         contactListView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -70,18 +94,15 @@ public class MainActivity extends AppCompatActivity {
         contactListView.setItemAnimator(new DefaultItemAnimator());
 
         noContact = (TextView)findViewById(R.id.txt_nocontact);
+    }
 
-        ArrayList<Contact> contacts = (ArrayList) sql.getAllContacts();
-        adapter = new ContactAdapter(contacts, sql);
-        contactListView.setAdapter(adapter);
-
-        adapter.ViewVisibilityToggle(contactListView, noContact);
-
+    private void SwipeInit() {
         ItemTouchHelper.Callback callback = new TouchHelper(adapter);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(contactListView);
+    }
 
-
+    private void ActionButtonInit() {
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.attachToRecyclerView(contactListView);
 
@@ -91,8 +112,17 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI), REQUEST_CODE_PICK_CONTACTS);
             }
         });
+    }
 
+    private void setDatabaseServiceIfFirstLaunch() {
+        sharedPreferenceHelper = new SharedPreferenceHelper(getApplicationContext());
 
+        if(sharedPreferenceHelper.read() == true){
+
+            sharedPreferenceHelper.write();
+            Intent i= new Intent(getApplicationContext(), UpdateDatabaseService.class);
+            getApplicationContext().startService(i);
+        }
     }
 
 
@@ -126,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
 
             adapter.addContact(contact);
             adapter.notifyDataSetChanged();
-            adapter.ViewVisibilityToggle(contactListView, noContact);
+            adapter.viewVisibilityToggle(contactListView, noContact);
 
         }
     }

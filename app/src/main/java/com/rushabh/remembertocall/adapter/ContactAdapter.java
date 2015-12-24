@@ -40,7 +40,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.CustomVi
     }
 
 
-    public void ViewVisibilityToggle(RecyclerView recyclerView , TextView textView) {
+    public void viewVisibilityToggle(RecyclerView recyclerView, TextView textView) {
         contactCount = sql.getContactsCount();
 
         if(contactCount == 0){

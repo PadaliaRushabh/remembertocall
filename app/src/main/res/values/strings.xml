@@ -3,4 +3,6 @@
     <string name="action_setting"> Setting </string>
     <string name="nocontact">No Contacts Added</string>
     <string name="service_name">UpdateDatabaseService</string>
+    <string name="preference_file_name">com.rushabh.remembertocall.preference_key</string>
+    <string name="preference_key">isFirstLaunch</string>
 </resources>

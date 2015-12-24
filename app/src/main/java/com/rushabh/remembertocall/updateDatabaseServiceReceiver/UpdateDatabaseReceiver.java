@@ -1,4 +1,4 @@
-package com.rushabh.remembertocall.bootReceiver;
+package com.rushabh.remembertocall.updateDatabaseServiceReceiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
