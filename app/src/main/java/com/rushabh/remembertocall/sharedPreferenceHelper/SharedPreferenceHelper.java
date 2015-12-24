@@ -45,4 +45,16 @@ public class SharedPreferenceHelper {
         int reminderDays = sharedPreferences.getInt(context.getString(R.string.preference_key_reminder), DEFAULT_REMINDER_DAYS);
         return  reminderDays;
     }
+
+
+    public void writeIsReminderNoticiation(boolean isEnabled){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(context.getString(R.string.preference_key_reminder_is_enabled), isEnabled);
+        editor.commit();
+    }
+
+    public boolean readIsReminderNoticiation(){
+        boolean isEnabled = sharedPreferences.getBoolean(context.getString(R.string.preference_key_reminder_is_enabled), true);
+        return  isEnabled;
+    }
 }

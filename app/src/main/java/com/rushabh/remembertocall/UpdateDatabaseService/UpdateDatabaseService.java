@@ -147,7 +147,7 @@ public class UpdateDatabaseService extends Service{
 
         }
 
-        if(daySinceLastCall >= reminderDays || daySinceLastCall == NEVER_CONTACTED){
+        if(sharedPreferenceHelper.readIsReminderNoticiation() && (daySinceLastCall >= reminderDays || daySinceLastCall == NEVER_CONTACTED)){
             contactToCall++;
             callNotification = true;
         }

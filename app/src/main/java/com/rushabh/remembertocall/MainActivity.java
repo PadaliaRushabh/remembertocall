@@ -16,6 +16,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -45,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int NEVER_CONTACTED = -1;
     private static final int PERMISSION_FOR_DURATION_DENIED = -2;
     private static final int CANNOT_ASK_FOR_PERMISSION_ON_RUNTIME = -3;
+    private static final int DEFAULT_REMINDER = 15 ;
     Uri uriContact;
     Cursor cursor;
     int id;
@@ -119,6 +121,9 @@ public class MainActivity extends AppCompatActivity {
 
         if(sharedPreferenceHelper.readFirstLaunch() == true){
 
+            sharedPreferenceHelper.writeIsReminderNoticiation(true);
+            sharedPreferenceHelper.writeReminder(DEFAULT_REMINDER);
+
             sharedPreferenceHelper.writeFirstLaunch();
             Intent i= new Intent(getApplicationContext(), UpdateDatabaseService.class);
             getApplicationContext().startService(i);
@@ -141,7 +146,6 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this , SettingActivity.class);
             startActivity(intent);
         }
-
         return super.onOptionsItemSelected(item);
     }
 

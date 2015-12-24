@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:inputType="numberSigned"
             android:ems="10"
-            android:id="@+id/editText"
+            android:id="@+id/editText_reminderDays"
             android:layout_weight="1" />
 
         <TextView
