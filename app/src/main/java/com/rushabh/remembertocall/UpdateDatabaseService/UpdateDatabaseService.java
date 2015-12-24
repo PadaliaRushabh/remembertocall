@@ -72,6 +72,9 @@ public class UpdateDatabaseService extends Service{
         sharedPreferenceHelper = new SharedPreferenceHelper(getApplicationContext());
         reminderDays = sharedPreferenceHelper.readReminder();
 
+     /*   contactNotification = new ContactNotification(getApplicationContext() , contactToCall);
+        contactNotification.sendNotification();*/
+
     }
 
     @Override
@@ -144,7 +147,7 @@ public class UpdateDatabaseService extends Service{
 
         }
 
-        if(daySinceLastCall >= reminderDays){
+        if(daySinceLastCall >= reminderDays || daySinceLastCall == NEVER_CONTACTED){
             contactToCall++;
             callNotification = true;
         }

@@ -32,7 +32,7 @@ public class ContactNotification {
 
     public void sendNotification(){
 
-        String text_str = "You haven't called " + this.contactToCall + " contacts in " + sharedPreferenceHelper.readReminder() + " Days";
+        String text_str = "You haven't called " + this.contactToCall + " contacts in more than " + sharedPreferenceHelper.readReminder() + " Days";
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.ic_add_white_24dp)
                 .setContentTitle(context.getString(R.string.app_name))
