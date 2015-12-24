@@ -18,7 +18,7 @@ public class ActionReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         if(intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED) || intent.getAction().equals(Intent.ACTION_MY_PACKAGE_REPLACED) ){
 
-            Log.i("name", intent.getAction());
+            //Log.i("name", intent.getAction());
             // Set the alarm to start at approximately 1:00 a.m.
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(System.currentTimeMillis());

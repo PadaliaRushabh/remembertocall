@@ -14,6 +14,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
+import com.rushabh.remembertocall.adapter.ContactAdapter;
 import com.rushabh.remembertocall.model.Contact;
 import com.rushabh.remembertocall.sql.SqlLiteHelper;
 
@@ -48,6 +49,8 @@ public class UpdateDatabaseService extends Service{
     private String displayName;
     private long daySinceLastCall;
     private int lastCallDuration;
+    private ContactAdapter adapter;
+
 
     @Override
     public void onCreate() {
@@ -57,10 +60,12 @@ public class UpdateDatabaseService extends Service{
         contacts = (ArrayList) sql.getAllContacts();
         updateContacts = new ArrayList<Contact>();
 
+
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        updateContacts.clear();
 
         new Thread(new Runnable() {
             @Override
@@ -69,21 +74,24 @@ public class UpdateDatabaseService extends Service{
                 for(Contact contact : contacts){
 
                     try {
-                        String params   = contact.getID() + "";
+                        String params = contact.getDisplayName() + "";
                         cursor = getApplicationContext().getContentResolver().query(
                             ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                             null,
-                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
+                            ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " = ?",
                             new String[]{params}, null);
 
 
                         updateContacts.add(getContact(cursor));
+                        int i =  sql.updateContact(getContact(cursor));
 
                     } catch (Exception ex){
                         ex.printStackTrace();
-                    }
+                     }
 
                 }
+                adapter = new ContactAdapter(updateContacts , sql);
+                adapter.notifyDataSetChanged();
 
                 stopSelf();
 
@@ -98,8 +106,8 @@ public class UpdateDatabaseService extends Service{
             id = Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts._ID)));
             displayName = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.DISPLAY_NAME));
             daySinceLastCall = Long.parseLong(cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.LAST_TIME_CONTACTED)));
-
-/*            Log.v("id" , id+"");
+/*
+            Log.v("id" , id+"");
             Log.v("displayName" , displayName+"");
             Log.v("daySinceLastCall" , daySinceLastCall+"");*/
             //Check if contact was ever contacted
@@ -116,7 +124,7 @@ public class UpdateDatabaseService extends Service{
 
         }
 
-        return new Contact(id , displayName, daySinceLastCall,lastCallDuration);
+        return new Contact(id, displayName, daySinceLastCall,lastCallDuration);
     }
 
     private String getDate(long milliSeconds){

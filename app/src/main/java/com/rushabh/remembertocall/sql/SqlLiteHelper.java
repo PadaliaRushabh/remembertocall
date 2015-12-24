@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.ContactsContract;
+import android.util.Log;
 
 import com.rushabh.remembertocall.model.Contact;
 
@@ -118,9 +119,10 @@ public class SqlLiteHelper extends SQLiteOpenHelper{
         values.put(COLUMN_LAST_CALL_DATE, contact.getDaySinceLastCall()); // Contact last call date
         values.put(COLUMN_LAST_CALL_DURATION, contact.getLastCallDuration()); // Contact last call duration
 
+        //Log.v("name" , contact.getDisplayName());
         // updating row
-        return db.update(TABLE, values, COLUMN_ID + " = ?",
-                new String[] { String.valueOf(contact.getID()) });
+        return db.update(TABLE, values, COLUMN_DISPLAY_NAME + " = ?",
+                new String[] { String.valueOf(contact.getDisplayName()) });
     }
 
     // Deleting single contact
