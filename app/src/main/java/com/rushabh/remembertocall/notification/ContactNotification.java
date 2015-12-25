@@ -34,10 +34,11 @@ public class ContactNotification {
 
         String text_str = "You haven't called " + this.contactToCall + " contacts in more than " + sharedPreferenceHelper.readReminder() + " Days";
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
-                .setSmallIcon(R.drawable.ic_add_white_24dp)
+                .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle(context.getString(R.string.app_name))
                 .setContentText(text_str)
-                .setDefaults(Notification.DEFAULT_ALL);
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setAutoCancel(true);
 
         Intent intent = new Intent(context , MainActivity.class);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);

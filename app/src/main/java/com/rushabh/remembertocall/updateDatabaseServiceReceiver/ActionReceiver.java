@@ -38,7 +38,7 @@ public class ActionReceiver extends BroadcastReceiver {
             /*alarmMgr.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
                     0,
                     1000 * 60 * 2,
-                    updateDatabaseIntent);*/
-        }
+                    updateDatabaseIntent);
+*/        }
     }
 }

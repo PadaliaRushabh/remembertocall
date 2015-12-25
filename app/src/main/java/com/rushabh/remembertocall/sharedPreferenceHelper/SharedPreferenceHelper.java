@@ -13,24 +13,21 @@ public class SharedPreferenceHelper {
     private static final int DEFAULT_REMINDER_DAYS = 15 ;
     SharedPreferences sharedPreferences;
     Context context;
-    String preference_string_name ;
-
 
     public SharedPreferenceHelper(Context context){
 
-        preference_string_name = context.getString(R.string.preference_file_name);
-        sharedPreferences = context.getSharedPreferences(preference_string_name, Context.MODE_PRIVATE);
+        sharedPreferences = context.getSharedPreferences(context.getResources().getString(R.string.preference_file_name), Context.MODE_PRIVATE);
         this.context = context;
     }
 
     public void writeFirstLaunch(){
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean(context.getString(R.string.preference_key) , false);
+        editor.putBoolean(context.getString(R.string.preference_key_firstlaunch) , false);
         editor.commit();
     }
 
     public boolean readFirstLaunch(){
-        boolean isFirstLaunch = sharedPreferences.getBoolean(context.getString(R.string.preference_key), true);
+        boolean isFirstLaunch = sharedPreferences.getBoolean(context.getString(R.string.preference_key_firstlaunch), true);
         return  isFirstLaunch;
     }
 
