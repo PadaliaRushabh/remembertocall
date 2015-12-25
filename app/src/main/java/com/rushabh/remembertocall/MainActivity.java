@@ -1,12 +1,14 @@
 package com.rushabh.remembertocall;
 
 import android.Manifest;
+import android.content.ContentUris;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.CallLog;
+import android.provider.Contacts;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -90,7 +92,12 @@ public class MainActivity extends AppCompatActivity {
         contactListView.addOnItemTouchListener(new ItemClickListener(getApplicationContext(), new ItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Log.v("name" , adapter.getItem(position).getDisplayName());
+                
+
+                Uri contactUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI,adapter.getItem(position).getID() );
+
+                Intent intent = new Intent(Intent.ACTION_VIEW, contactUri);
+                startActivity(intent);
             }
         }));
     }
