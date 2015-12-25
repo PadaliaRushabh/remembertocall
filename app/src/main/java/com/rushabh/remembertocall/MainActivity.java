@@ -29,6 +29,7 @@ import com.rushabh.remembertocall.model.Contact;
 import com.rushabh.remembertocall.notification.ContactNotification;
 import com.rushabh.remembertocall.sharedPreferenceHelper.SharedPreferenceHelper;
 import com.rushabh.remembertocall.sql.SqlLiteHelper;
+import com.rushabh.remembertocall.touchHelper.ItemClickListener;
 import com.rushabh.remembertocall.touchHelper.TouchHelper;
 
 import org.joda.time.DateTime;
@@ -77,10 +78,21 @@ public class MainActivity extends AppCompatActivity {
 
         SwipeInit();
 
+        setUpContactListTouch();
+
         ActionButtonInit();
 
         setDatabaseServiceIfFirstLaunch();
 
+    }
+
+    private void setUpContactListTouch() {
+        contactListView.addOnItemTouchListener(new ItemClickListener(getApplicationContext(), new ItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Log.v("name" , adapter.getItem(position).getDisplayName());
+            }
+        }));
     }
 
     private void AdapterInit() {

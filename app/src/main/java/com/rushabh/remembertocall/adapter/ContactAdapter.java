@@ -34,6 +34,10 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.CustomVi
     private int contactCount = 0;
 
 
+    public Contact getItem(int position){
+        return contacts.get(position);
+    }
+
     public ContactAdapter(ArrayList<Contact> contacts , SqlLiteHelper sql){
         this.contacts = contacts;
         this.sql = sql;
