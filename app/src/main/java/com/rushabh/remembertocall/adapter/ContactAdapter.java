@@ -1,11 +1,14 @@
 package com.rushabh.remembertocall.adapter;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.rushabh.remembertocall.MainActivity;
@@ -32,6 +35,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.CustomVi
     private static final int TODAY = 0;
     SqlLiteHelper sql;
     private int contactCount = 0;
+    //private int listItemCounter = 0;
 
 
     public Contact getItem(int position){
@@ -83,11 +87,14 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.CustomVi
         notifyItemRemoved(position);
     }
 
+
     @Override
     public void onBindViewHolder(CustomViewHolder holder, int position) {
         TextView contactName = holder.contactName;
         TextView lastCallDate = holder.lastCallDate;
         TextView lastCallSince = holder.lastCallSince;
+
+        //setTextViewMarginTop(contactName);
 
         String str_lastCallSince;
         String str_dateSinceLastCall;
@@ -118,6 +125,18 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.CustomVi
         lastCallDate.setText(str_dateSinceLastCall);
 
     }
+
+/*    @TargetApi(Build.VERSION_CODES.KITKAT)
+    private void setTextViewMarginTop(TextView contactName) {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        params.setMargins(0, 15, 0, 0);
+
+        if(listItemCounter !=0){
+            contactName.setLayoutParams(params);
+        }
+
+        listItemCounter++;
+    }*/
 
     @Override
     public int getItemCount() {

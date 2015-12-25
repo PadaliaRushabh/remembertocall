@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         contactListView.addOnItemTouchListener(new ItemClickListener(getApplicationContext(), new ItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                
+
 
                 Uri contactUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI,adapter.getItem(position).getID() );
 
