@@ -63,6 +63,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.CustomVi
 
         CustomViewHolder viewHolder = new CustomViewHolder(view);
 
+
         return viewHolder;
     }
 

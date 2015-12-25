@@ -58,6 +58,9 @@ public class UpdateDatabaseService extends Service{
     int reminderDays;
     int contactToCall = 0;
 
+    Thread updateThread;
+    Runnable run;
+
     ContactNotification contactNotification;
 
 
@@ -81,7 +84,7 @@ public class UpdateDatabaseService extends Service{
     public int onStartCommand(Intent intent, int flags, int startId) {
         updateContacts.clear();
 
-        new Thread(new Runnable() {
+        run = new Runnable() {
             @Override
             public void run() {
 
@@ -89,29 +92,42 @@ public class UpdateDatabaseService extends Service{
 
                     try {
                         String params = contact.getDisplayName() + "";
+                        //Log.v("params" , params);
                         cursor = getApplicationContext().getContentResolver().query(
-                            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                            null,
-                            ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " = ?",
-                            new String[]{params}, null);
+                                ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                                null,
+                                ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " = ?",
+                                new String[]{params}, null);
 
-
-                        updateContacts.add(getContact(cursor));
-                        int i =  sql.updateContact(getContact(cursor));
-
+                        Contact c = getContact(cursor);
+                        updateContacts.add(c);
+                        int i =  sql.updateContact(c);
+                        updateContactToCallVariable();
+                       // Log.v("i" , i+"");
                     } catch (Exception ex){
                         ex.printStackTrace();
-                     }
+                    }
 
                 }
-                adapter = new ContactAdapter(updateContacts , sql);
-                adapter.notifyDataSetChanged();
+
 
                 stopSelf();
 
             }
-        }).start();
+        };
 
+        updateThread = new Thread(run);
+        updateThread.start();
+        try {
+            updateThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        adapter = new ContactAdapter(updateContacts , sql);
+        adapter.notifyDataSetChanged();
+
+        //Log.v("thread" , callNotification+"");
         if(callNotification){
 
             contactNotification = new ContactNotification(getApplicationContext() , contactToCall);
@@ -129,8 +145,8 @@ public class UpdateDatabaseService extends Service{
             id = Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts._ID)));
             displayName = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.DISPLAY_NAME));
             daySinceLastCall = Long.parseLong(cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.LAST_TIME_CONTACTED)));
-/*
-            Log.v("id" , id+"");
+
+           /* Log.v("id" , id+"");
             Log.v("displayName" , displayName+"");
             Log.v("daySinceLastCall" , daySinceLastCall+"");*/
             //Check if contact was ever contacted
@@ -147,12 +163,18 @@ public class UpdateDatabaseService extends Service{
 
         }
 
+        //Log.v("sharedpref", sharedPreferenceHelper.readIsReminderNoticiation()+"");
+
+
+        return new Contact(id, displayName, daySinceLastCall,lastCallDuration);
+    }
+
+    private void updateContactToCallVariable() {
         if(sharedPreferenceHelper.readIsReminderNoticiation() && (daySinceLastCall >= reminderDays || daySinceLastCall == NEVER_CONTACTED)){
             contactToCall++;
             callNotification = true;
+            //Log.v("notification", contactToCall + "");
         }
-
-        return new Contact(id, displayName, daySinceLastCall,lastCallDuration);
     }
 
     private String getDate(long milliSeconds){

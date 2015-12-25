@@ -22,7 +22,7 @@ public class ActionReceiver extends BroadcastReceiver {
             // Set the alarm to start at approximately 1:00 a.m.
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(System.currentTimeMillis());
-            calendar.set(Calendar.HOUR_OF_DAY, 18);
+            calendar.set(Calendar.HOUR_OF_DAY, 22);
 
             // With setInexactRepeating(), you have to use one of the AlarmManager interval
             // constants--in this case, AlarmManager.INTERVAL_DAY.
@@ -35,7 +35,7 @@ public class ActionReceiver extends BroadcastReceiver {
            alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                     AlarmManager.INTERVAL_DAY, updateDatabaseIntent);
 
-           /* alarmMgr.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+            /*alarmMgr.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
                     0,
                     1000 * 60 * 2,
                     updateDatabaseIntent);*/
