@@ -48,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
     private static final int PERMISSION_FOR_DURATION_DENIED = -2;
     private static final int CANNOT_ASK_FOR_PERMISSION_ON_RUNTIME = -3;
     private static final int DEFAULT_REMINDER = 15 ;
+    private static final int DEFAULT_HOUR = 1 ; //1 a.m
+    private static final int DEFAULT_MINUTE = 00 ;
     Uri uriContact;
     Cursor cursor;
     int id;
@@ -140,6 +142,8 @@ public class MainActivity extends AppCompatActivity {
 
             sharedPreferenceHelper.writeIsReminderNoticiation(true);
             sharedPreferenceHelper.writeReminder(DEFAULT_REMINDER);
+            sharedPreferenceHelper.writeNotificationHour(DEFAULT_HOUR);
+            sharedPreferenceHelper.writeNotificationMinute(DEFAULT_MINUTE);
 
             sharedPreferenceHelper.writeFirstLaunch();
             Intent i= new Intent(getApplicationContext(), UpdateDatabaseService.class);

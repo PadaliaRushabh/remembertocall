@@ -7,15 +7,19 @@
     <string name="preference_key_firstlaunch">isFirstLaunch</string>
     <string name="preference_key_reminder">preference_key_reminder</string>
     <string name="preference_key_reminder_is_enabled">preference_key_reminder_is_enabled</string>
+    <string name="preference_key_hour">preference_key_hour</string>
     <string name="setting_activity">Settings</string>
 
     <string name="setting_label_reminder">Remind me every</string>
     <string name="setting_label_reminder_days">Days</string>
 
     <string name="setting_label_notification">Enable daily notifications</string>
+    <string name="setting_label_notification_time">Set Notification Time</string>
     <string name="setting_saved_toast">Settings Saved</string>
     <string name="str_today">Today</string>
     <string name="str_never">Never</string>
+    <string name="preference_key_minute">preference_key_minute</string>
+    <string name="setting_label_notification_time_sample">1:00</string>
 </resources>
 
 

@@ -11,6 +11,8 @@ import com.rushabh.remembertocall.R;
 public class SharedPreferenceHelper {
 
     private static final int DEFAULT_REMINDER_DAYS = 15 ;
+    private static final int DEFAULT_REMINDER_HOURS = 1 ; //1 a.m
+    private static final int DEFAULT_REMINDER_MINUTE = 00;
     SharedPreferences sharedPreferences;
     Context context;
 
@@ -41,6 +43,29 @@ public class SharedPreferenceHelper {
     public int readReminder(){
         int reminderDays = sharedPreferences.getInt(context.getString(R.string.preference_key_reminder), DEFAULT_REMINDER_DAYS);
         return  reminderDays;
+    }
+
+
+    public void writeNotificationHour(int hours){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(context.getString(R.string.preference_key_hour), hours);
+        editor.commit();
+    }
+
+    public int readNotificationHour(){
+        int notificationHours = sharedPreferences.getInt(context.getString(R.string.preference_key_hour), DEFAULT_REMINDER_HOURS);
+        return  notificationHours;
+    }
+
+    public void writeNotificationMinute(int minute){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(context.getString(R.string.preference_key_minute), minute);
+        editor.commit();
+    }
+
+    public int readNotificationMinute(){
+        int notificationMinute = sharedPreferences.getInt(context.getString(R.string.preference_key_minute), DEFAULT_REMINDER_MINUTE);
+        return  notificationMinute;
     }
 
 

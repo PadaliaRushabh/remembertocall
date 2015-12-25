@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.rushabh.remembertocall.sharedPreferenceHelper.SharedPreferenceHelper;
+
 import java.util.Calendar;
 
 /**
@@ -14,15 +16,19 @@ import java.util.Calendar;
  */
 public class ActionReceiver extends BroadcastReceiver {
     final int UPDATE_DATABASE_REQUEST_CODE = 10;
+    SharedPreferenceHelper sharedPreferenceHelper;
     @Override
     public void onReceive(Context context, Intent intent) {
-        if(intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED) || intent.getAction().equals(Intent.ACTION_MY_PACKAGE_REPLACED) ){
+        if(intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED) || intent.getAction().equals(Intent.ACTION_MY_PACKAGE_REPLACED) || intent.getAction().equals("com.rushabh.remenbertocall.NOTIFICATION_TIME_CHANGE")){
+            sharedPreferenceHelper = new SharedPreferenceHelper(context);
 
             //Log.i("name", intent.getAction());
             // Set the alarm to start at approximately 1:00 a.m.
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(System.currentTimeMillis());
-            calendar.set(Calendar.HOUR_OF_DAY, 22);
+            calendar.set(Calendar.HOUR_OF_DAY, sharedPreferenceHelper.readNotificationHour());
+            calendar.set(Calendar.MINUTE, sharedPreferenceHelper.readNotificationMinute());
+
 
             // With setInexactRepeating(), you have to use one of the AlarmManager interval
             // constants--in this case, AlarmManager.INTERVAL_DAY.

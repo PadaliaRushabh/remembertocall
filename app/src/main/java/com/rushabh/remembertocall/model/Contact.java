@@ -60,7 +60,6 @@ public class Contact {
     @Override
     public boolean equals(Object object) {
 
-
         boolean result = false;
         if (object == null || object.getClass() != getClass()) {
             result = false;
