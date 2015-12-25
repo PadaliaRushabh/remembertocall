@@ -124,7 +124,7 @@ public class UpdateDatabaseService extends Service{
             e.printStackTrace();
         }
 
-        adapter = new ContactAdapter(updateContacts , sql);
+        adapter = new ContactAdapter(getApplicationContext() , updateContacts , sql);
         adapter.notifyDataSetChanged();
 
         //Log.v("thread" , callNotification+"");

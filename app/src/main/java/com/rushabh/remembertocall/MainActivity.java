@@ -8,7 +8,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.CallLog;
-import android.provider.Contacts;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -18,21 +17,20 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.melnykov.fab.FloatingActionButton;
 import com.rushabh.remembertocall.UpdateDatabaseService.UpdateDatabaseService;
 import com.rushabh.remembertocall.adapter.ContactAdapter;
 import com.rushabh.remembertocall.model.Contact;
-import com.rushabh.remembertocall.notification.ContactNotification;
 import com.rushabh.remembertocall.sharedPreferenceHelper.SharedPreferenceHelper;
 import com.rushabh.remembertocall.sql.SqlLiteHelper;
-import com.rushabh.remembertocall.touchHelper.ItemClickListener;
-import com.rushabh.remembertocall.touchHelper.TouchHelper;
+import com.rushabh.remembertocall.recyclerViewTouchHelper.ItemClickListener;
+import com.rushabh.remembertocall.recyclerViewTouchHelper.SwipeHelper;
 
 import org.joda.time.DateTime;
 import org.joda.time.Days;
@@ -94,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(View view, int position) {
 
 
-                Uri contactUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI,adapter.getItem(position).getID() );
+                Uri contactUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, adapter.getItem(position).getID());
 
                 Intent intent = new Intent(Intent.ACTION_VIEW, contactUri);
                 startActivity(intent);
@@ -104,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void AdapterInit() {
         ArrayList<Contact> contacts = (ArrayList) sql.getAllContacts();
-        adapter = new ContactAdapter(contacts, sql);
+        adapter = new ContactAdapter(getApplicationContext() , contacts, sql);
         contactListView.setAdapter(adapter);
     }
 
@@ -119,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void SwipeInit() {
-        ItemTouchHelper.Callback callback = new TouchHelper(adapter);
+        ItemTouchHelper.Callback callback = new SwipeHelper(adapter);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(contactListView);
     }
@@ -177,9 +175,13 @@ public class MainActivity extends AppCompatActivity {
 
             Contact contact = getContact(cursor);
 
-            adapter.addContact(contact);
-            adapter.notifyDataSetChanged();
-            adapter.viewVisibilityToggle(contactListView, noContact);
+            boolean contactAddedSuccess = adapter.addContact(contact);
+            if(contactAddedSuccess){
+                adapter.notifyDataSetChanged();
+                adapter.viewVisibilityToggle(contactListView, noContact);
+            } else{
+                Toast.makeText(getApplicationContext() , contact.getDisplayName() + " is already added", Toast.LENGTH_SHORT).show();
+            }
 
         }
     }

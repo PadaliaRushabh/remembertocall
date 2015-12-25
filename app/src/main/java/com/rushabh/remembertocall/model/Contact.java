@@ -1,5 +1,7 @@
 package com.rushabh.remembertocall.model;
 
+import android.util.Log;
+
 /**
  * Created by rushabh on 17/12/15.
  */
@@ -53,5 +55,22 @@ public class Contact {
 
     public void setLastCallDuration(int lastCallDuration) {
         this.lastCallDuration = lastCallDuration;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+
+
+        boolean result = false;
+        if (object == null || object.getClass() != getClass()) {
+            result = false;
+        } else {
+            Contact contact = (Contact) object;
+            if (this.getDisplayName().equals(contact.getDisplayName()) && this.getID() == contact.getID()) {
+                result = true;
+            }
+        }
+
+        return result;
     }
 }

@@ -35,6 +35,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.CustomVi
     private static final int TODAY = 0;
     SqlLiteHelper sql;
     private int contactCount = 0;
+    Context context;
     //private int listItemCounter = 0;
 
 
@@ -42,7 +43,8 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.CustomVi
         return contacts.get(position);
     }
 
-    public ContactAdapter(ArrayList<Contact> contacts , SqlLiteHelper sql){
+    public ContactAdapter(Context context , ArrayList<Contact> contacts , SqlLiteHelper sql){
+        this.context = context;
         this.contacts = contacts;
         this.sql = sql;
     }
@@ -75,16 +77,29 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.CustomVi
         return viewHolder;
     }
 
-    public void  addContact(Contact contact){
-        this.contacts.add(contact);
-        sql.addContact(contact);
+    public boolean addContact(Contact contact){
+
+        if(isContactAlreadyAdded(contact) == false) {
+            this.contacts.add(contact);
+            sql.addContact(contact);
+            return true;
+        }
+
+        return false;
     }
+
 
     public void removeContact(int position){
         sql.deleteContact(this.contacts.get(position));
 
         this.contacts.remove(position);
         notifyItemRemoved(position);
+    }
+
+    public boolean isContactAlreadyAdded(Contact contact){
+
+        return  contacts.contains(contact);
+
     }
 
 

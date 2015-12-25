@@ -1,4 +1,4 @@
-package com.rushabh.remembertocall.touchHelper;
+package com.rushabh.remembertocall.recyclerViewTouchHelper;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
