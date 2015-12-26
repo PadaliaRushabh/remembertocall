@@ -28,8 +28,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import static android.support.v4.app.ActivityCompat.requestPermissions;
-
 /**
  * Created by rushabh on 24/12/15.
  */
@@ -75,6 +73,7 @@ public class UpdateDatabaseService extends Service{
 
         sharedPreferenceHelper = new SharedPreferenceHelper(getApplicationContext());
         reminderDays = sharedPreferenceHelper.readReminder();
+        adapter = new ContactAdapter(getApplicationContext());
 
      /*   contactNotification = new ContactNotification(getApplicationContext() , contactToCall);
         contactNotification.sendNotification();*/
@@ -92,13 +91,22 @@ public class UpdateDatabaseService extends Service{
                 for(Contact contact : contacts){
 
                     try {
-                        String params = contact.getDisplayName() + "";
+
+
+
+                        long ID = contact.getID();
+                        String LookupKey = contact.getLookUpKey();
+                        Log.v("lookup" ,LookupKey);
+
+                        Cursor cursor = adapter.getCursorFromLookUpKey(ID, LookupKey);
+                        Contact lookup_contact = getContact(cursor);
+
                         //Log.v("params" , params);
                         cursor = getApplicationContext().getContentResolver().query(
-                                ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                                ContactsContract.Contacts.CONTENT_URI,
                                 null,
-                                ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " = ?",
-                                new String[]{params}, null);
+                                ContactsContract.Contacts._ID + " = ?",
+                                new String[]{lookup_contact.getID()+""}, null);
 
                         Contact c = getContact(cursor);
                         updateContacts.add(c);

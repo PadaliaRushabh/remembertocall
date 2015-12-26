@@ -17,6 +17,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -93,8 +94,23 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(View view, int position) {
 
+                //Get Look_UP URI
 
-                Uri contactUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, adapter.getItem(position).getID());
+          /*      Uri lookUpUri = ContactsContract.Contacts.getLookupUri(adapter.getItem(position).getID(), adapter.getItem(position).getLookUpKey());
+                Uri contentUri = ContactsContract.Contacts.lookupContact(getContentResolver(), lookUpUri);
+
+                cursor = getApplicationContext().getContentResolver().query(contentUri, null, null, null, null);
+
+                Contact c = getContact(cursor);*/
+
+                Cursor cursor_lookup = adapter.getCursorFromLookUpKey(adapter.getItem(position).getID(), adapter.getItem(position).getLookUpKey());
+                Contact c = getContact(cursor_lookup);
+
+/*                Log.v("new" , c.getID()+"");
+                Log.v("new" , adapter.getItem(position).getID()+"");*/
+
+                Uri contactUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, c.getID());
+                //Uri contactUri = ContentUris.withAppendedId(contentUri, adapter.getItem(position).getID())
 
                 Intent intent = new Intent(Intent.ACTION_VIEW, contactUri);
                 startActivity(intent);

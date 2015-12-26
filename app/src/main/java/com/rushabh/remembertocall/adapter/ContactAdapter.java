@@ -1,8 +1,16 @@
 package com.rushabh.remembertocall.adapter;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Build;
+import android.provider.CallLog;
+import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,11 +25,14 @@ import com.rushabh.remembertocall.model.Contact;
 import com.rushabh.remembertocall.sql.SqlLiteHelper;
 
 import org.joda.time.DateTime;
+import org.joda.time.Days;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Created by rushabh on 17/12/15.
@@ -30,6 +41,8 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.CustomVi
 
     ArrayList<Contact> contacts;
     private static final int NEVER_CONTACTED = -1;
+    private static final int CANNOT_ASK_FOR_PERMISSION_FROM_SERVICE = -4;
+    private static final int DURATION_NOT_AVAILABLE = -5 ;
     private static final int PERMISSION_FOR_DURATION_DENIED = -2;
     private static final int CANNOT_ASK_FOR_PERMISSION_ON_RUNTIME = -3;
     private static final int TODAY = 0;
@@ -41,6 +54,10 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.CustomVi
 
     public Contact getItem(int position){
         return contacts.get(position);
+    }
+
+    public ContactAdapter(Context context){
+        this.context = context;
     }
 
     public ContactAdapter(Context context , ArrayList<Contact> contacts , SqlLiteHelper sql){
@@ -87,6 +104,21 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.CustomVi
 
         return false;
     }
+
+    public Cursor getCursorFromLookUpKey(long ID, String lookUpKey){
+        Uri lookUpUri = ContactsContract.Contacts.getLookupUri(ID, lookUpKey);
+        Uri contentUri = ContactsContract.Contacts.lookupContact(context.getContentResolver(), lookUpUri);
+
+        Cursor cursor = context.getContentResolver().query(contentUri, null, null, null, null);
+
+        return  cursor;
+    }
+
+
+        //Log.v("sharedpref", sharedPreferenceHelper.readIsReminderNoticiation()+"");
+
+
+
 
 
     public void removeContact(int position){
