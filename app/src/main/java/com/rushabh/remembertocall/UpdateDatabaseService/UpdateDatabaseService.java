@@ -62,6 +62,7 @@ public class UpdateDatabaseService extends Service{
     Runnable run;
 
     ContactNotification contactNotification;
+    private String lookUpKey;
 
 
     @Override
@@ -143,6 +144,7 @@ public class UpdateDatabaseService extends Service{
     public Contact getContact(Cursor cursor) {
         if (cursor.moveToFirst()) {
             id = Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts._ID)));
+            lookUpKey = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.LOOKUP_KEY));
             displayName = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.DISPLAY_NAME));
             daySinceLastCall = Long.parseLong(cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.LAST_TIME_CONTACTED)));
 
@@ -166,7 +168,7 @@ public class UpdateDatabaseService extends Service{
         //Log.v("sharedpref", sharedPreferenceHelper.readIsReminderNoticiation()+"");
 
 
-        return new Contact(id, displayName, daySinceLastCall,lastCallDuration);
+        return new Contact(id, lookUpKey,displayName, daySinceLastCall,lastCallDuration);
     }
 
     private void updateContactToCallVariable() {

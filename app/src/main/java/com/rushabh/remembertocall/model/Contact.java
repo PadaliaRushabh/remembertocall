@@ -11,9 +11,11 @@ public class Contact {
     private String displayName;
     private long daySinceLastCall;
     private int lastCallDuration;
+    private  String lookUpKey;
 
-    public Contact(long ID ,String displayName, long daySinceLastCall, int lastCallDuration){
+    public Contact(long ID , String lookUpKey ,String displayName, long daySinceLastCall, int lastCallDuration){
         this.setID(ID);
+        this.setLookUpKey(lookUpKey);
         this.setDisplayName(displayName);
         this.setDaySinceLastCall(daySinceLastCall);
         this.setLastCallDuration(lastCallDuration);
@@ -71,5 +73,13 @@ public class Contact {
         }
 
         return result;
+    }
+
+    public String getLookUpKey() {
+        return lookUpKey;
+    }
+
+    public void setLookUpKey(String lookUpKey) {
+        this.lookUpKey = lookUpKey;
     }
 }

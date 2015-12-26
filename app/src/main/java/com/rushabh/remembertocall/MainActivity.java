@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
     Uri uriContact;
     Cursor cursor;
     int id;
-    String displayName;
+    String displayName, lookUpKey;
     long daySinceLastCall;
     int lastCallDuration;
     SqlLiteHelper sql;
@@ -194,6 +194,7 @@ public class MainActivity extends AppCompatActivity {
     public Contact getContact(Cursor cursor) {
         if (cursor.moveToFirst()) {
             id = Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts._ID)));
+            lookUpKey = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.LOOKUP_KEY));
             displayName = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.DISPLAY_NAME));
             daySinceLastCall = Long.parseLong(cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.LAST_TIME_CONTACTED)));
 
@@ -211,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-        return new Contact(id , displayName, daySinceLastCall,lastCallDuration);
+        return new Contact(id ,lookUpKey, displayName, daySinceLastCall,lastCallDuration);
     }
 
     private String getDate(long milliSeconds){

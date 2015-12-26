@@ -21,12 +21,13 @@ public class SqlLiteHelper extends SQLiteOpenHelper{
 
     public static final String TABLE = "contacts";
     public static final String COLUMN_ID = "_id";
+    public static final String COLUMN_LOOKUP_KEY = "lookup_key";
     public static final String COLUMN_DISPLAY_NAME = "display_name";
     public static final String COLUMN_LAST_CALL_DATE = "last_call_date";
     public static final String COLUMN_LAST_CALL_DURATION = "last_call_duration";
 
     private static final String DATABASE_NAME = "Contact.db";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
     Cursor cursor;
 
     public SqlLiteHelper(Context context){
@@ -37,6 +38,7 @@ public class SqlLiteHelper extends SQLiteOpenHelper{
     private static final String DATABASE_CREATE = "create table IF NOT EXISTS "
             + TABLE + "("
             + COLUMN_ID + " integer primary key , "
+            + COLUMN_LOOKUP_KEY + " text not null, "
             + COLUMN_DISPLAY_NAME + " text not null, "
             + COLUMN_LAST_CALL_DATE + " integer not null,"
             + COLUMN_LAST_CALL_DURATION + " integer not null"
@@ -63,6 +65,7 @@ public class SqlLiteHelper extends SQLiteOpenHelper{
 
         ContentValues values = new ContentValues();
         values.put(COLUMN_ID, contact.getID()); // Contact id
+        values.put(COLUMN_LOOKUP_KEY, contact.getLookUpKey());
         values.put(COLUMN_DISPLAY_NAME, contact.getDisplayName()); // Contact name
         values.put(COLUMN_LAST_CALL_DATE, contact.getDaySinceLastCall()); // Contact last call date
         values.put(COLUMN_LAST_CALL_DURATION, contact.getLastCallDuration()); // Contact last call duration
@@ -86,9 +89,11 @@ public class SqlLiteHelper extends SQLiteOpenHelper{
             do {
                 Contact contact = new Contact();
                 contact.setID(Integer.parseInt(cursor.getString(0)));
-                contact.setDisplayName(cursor.getString(1));
-                contact.setLastCallDuration(cursor.getInt(3));
-                contact.setDaySinceLastCall(cursor.getLong(2));
+                contact.setLookUpKey(cursor.getString(1));
+                contact.setDisplayName(cursor.getString(2));
+                contact.setDaySinceLastCall(cursor.getLong(3));
+                contact.setLastCallDuration(cursor.getInt(4));
+
                 // Adding contact to list
                 contactList.add(contact);
             } while (cursor.moveToNext());
@@ -115,6 +120,7 @@ public class SqlLiteHelper extends SQLiteOpenHelper{
 
         ContentValues values = new ContentValues();
         values.put(COLUMN_ID, contact.getID()); // Contact id
+        values.put(COLUMN_LOOKUP_KEY , contact.getLookUpKey());
         values.put(COLUMN_DISPLAY_NAME, contact.getDisplayName()); // Contact name
         values.put(COLUMN_LAST_CALL_DATE, contact.getDaySinceLastCall()); // Contact last call date
         values.put(COLUMN_LAST_CALL_DURATION, contact.getLastCallDuration()); // Contact last call duration
