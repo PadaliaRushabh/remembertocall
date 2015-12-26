@@ -25,7 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.melnykov.fab.FloatingActionButton;
-import com.rushabh.remembertocall.UpdateDatabaseService.UpdateDatabaseService;
+import com.rushabh.remembertocall.service.UpdateDatabaseService;
 import com.rushabh.remembertocall.adapter.ContactAdapter;
 import com.rushabh.remembertocall.model.Contact;
 import com.rushabh.remembertocall.sharedPreferenceHelper.SharedPreferenceHelper;
@@ -154,9 +154,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void setDatabaseServiceIfFirstLaunch() {
 
+        Log.v("launch" , sharedPreferenceHelper.readFirstLaunch()+"");
+
         if(sharedPreferenceHelper.readFirstLaunch() == true){
 
-            sharedPreferenceHelper.writeIsReminderNoticiation(true);
+            sharedPreferenceHelper.writeIsReminderNotification(true);
             sharedPreferenceHelper.writeReminder(DEFAULT_REMINDER);
             sharedPreferenceHelper.writeNotificationHour(DEFAULT_HOUR);
             sharedPreferenceHelper.writeNotificationMinute(DEFAULT_MINUTE);

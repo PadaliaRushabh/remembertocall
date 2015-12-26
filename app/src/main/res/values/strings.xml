@@ -20,6 +20,9 @@
     <string name="str_never">Never</string>
     <string name="preference_key_minute">preference_key_minute</string>
     <string name="setting_label_notification_time_sample">1:00</string>
+    <string name="key_number">key_number</string>
+    <string name="preference_key_incomming_call_number">preference_key_incomming_call_number</string>
+    <string name="service_name_on_call">Update Database Oncall Service</string>
 </resources>
 
 

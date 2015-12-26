@@ -1,4 +1,4 @@
-package com.rushabh.remembertocall.updateDatabaseServiceReceiver;
+package com.rushabh.remembertocall.broadcastReceiver;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -19,6 +19,8 @@ public class ActionReceiver extends BroadcastReceiver {
     SharedPreferenceHelper sharedPreferenceHelper;
     @Override
     public void onReceive(Context context, Intent intent) {
+
+        Log.v("action", intent.getAction());
         if(intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED) || intent.getAction().equals(Intent.ACTION_MY_PACKAGE_REPLACED) || intent.getAction().equals("com.rushabh.remenbertocall.NOTIFICATION_TIME_CHANGE")){
             sharedPreferenceHelper = new SharedPreferenceHelper(context);
 

@@ -13,6 +13,7 @@ public class SharedPreferenceHelper {
     private static final int DEFAULT_REMINDER_DAYS = 15 ;
     private static final int DEFAULT_REMINDER_HOURS = 1 ; //1 a.m
     private static final int DEFAULT_REMINDER_MINUTE = 00;
+    private static final String DEFAULT_INCOMING_NUMBER = "0" ;
     SharedPreferences sharedPreferences;
     Context context;
 
@@ -69,14 +70,27 @@ public class SharedPreferenceHelper {
     }
 
 
-    public void writeIsReminderNoticiation(boolean isEnabled){
+    public void writeIsReminderNotification(boolean isEnabled){
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean(context.getString(R.string.preference_key_reminder_is_enabled), isEnabled);
         editor.commit();
     }
 
-    public boolean readIsReminderNoticiation(){
+    public boolean readIsReminderNotification(){
         boolean isEnabled = sharedPreferences.getBoolean(context.getString(R.string.preference_key_reminder_is_enabled), true);
         return  isEnabled;
     }
+
+    public void writeIncomingCallNumber(String number){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(context.getString(R.string.preference_key_incomming_call_number), number);
+        editor.commit();
+    }
+
+    public String readIncomingCallNumber(){
+        String number = sharedPreferences.getString(context.getString(R.string.preference_key_incomming_call_number), DEFAULT_INCOMING_NUMBER);
+        return  number;
+    }
+
+
 }

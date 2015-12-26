@@ -115,7 +115,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.CustomVi
     }
 
 
-        //Log.v("sharedpref", sharedPreferenceHelper.readIsReminderNoticiation()+"");
+        //Log.v("sharedpref", sharedPreferenceHelper.readIsReminderNotification()+"");
 
 
 

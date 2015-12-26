@@ -1,4 +1,4 @@
-package com.rushabh.remembertocall.UpdateDatabaseService;
+package com.rushabh.remembertocall.service;
 
 import android.Manifest;
 import android.app.Service;
@@ -74,6 +74,7 @@ public class UpdateDatabaseService extends Service{
         sharedPreferenceHelper = new SharedPreferenceHelper(getApplicationContext());
         reminderDays = sharedPreferenceHelper.readReminder();
         adapter = new ContactAdapter(getApplicationContext());
+        Log.v("service" , this.getClass().toString());
 
      /*   contactNotification = new ContactNotification(getApplicationContext() , contactToCall);
         contactNotification.sendNotification();*/
@@ -84,67 +85,89 @@ public class UpdateDatabaseService extends Service{
     public int onStartCommand(Intent intent, int flags, int startId) {
         updateContacts.clear();
 
-        run = new Runnable() {
-            @Override
-            public void run() {
+/*        Contact c;
+        String phoneNumber = "0";
+        //Log.v("call" , phoneNumber+"");
+        if(!sharedPreferenceHelper.readIncomingCallNumber().equals("0")){
+            phoneNumber = sharedPreferenceHelper.readIncomingCallNumber();
+            sharedPreferenceHelper.writeIncomingCallNumber("0");
 
-                for(Contact contact : contacts){
+            ContentResolver cr = getApplicationContext().getContentResolver();
+            Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phoneNumber));
+            Cursor cursor = cr.query(uri, null, ContactsContract.PhoneLookup.DISPLAY_NAME + "= ?", new String[]{phoneNumber}, null);
 
-                    try {
+            if(cursor != null){
+                c = getContact(cursor);
+                adapter = new ContactAdapter(getApplicationContext(), contacts , sql);
+                if(adapter.isContactAlreadyAdded(c)) {
+                    sql.updateContact(c);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+        } else {*/
+
+            run = new Runnable() {
+                @Override
+                public void run() {
+
+                    for (Contact contact : contacts) {
+
+                        try {
 
 
+                            long ID = contact.getID();
+                            String LookupKey = contact.getLookUpKey();
+                            Log.v("lookup", LookupKey);
 
-                        long ID = contact.getID();
-                        String LookupKey = contact.getLookUpKey();
-                        Log.v("lookup" ,LookupKey);
+                            Cursor cursor = adapter.getCursorFromLookUpKey(ID, LookupKey);
+                            Contact lookup_contact = getContact(cursor);
 
-                        Cursor cursor = adapter.getCursorFromLookUpKey(ID, LookupKey);
-                        Contact lookup_contact = getContact(cursor);
+                            //Log.v("params" , params);
+                            cursor = getApplicationContext().getContentResolver().query(
+                                    ContactsContract.Contacts.CONTENT_URI,
+                                    null,
+                                    ContactsContract.Contacts._ID + " = ?",
+                                    new String[]{lookup_contact.getID() + ""}, null);
 
-                        //Log.v("params" , params);
-                        cursor = getApplicationContext().getContentResolver().query(
-                                ContactsContract.Contacts.CONTENT_URI,
-                                null,
-                                ContactsContract.Contacts._ID + " = ?",
-                                new String[]{lookup_contact.getID()+""}, null);
+                            Contact c = getContact(cursor);
+                            updateContacts.add(c);
+                            int i = sql.updateContact(c);
+                            updateContactToCallVariable();
+                            // Log.v("i" , i+"");
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
 
-                        Contact c = getContact(cursor);
-                        updateContacts.add(c);
-                        int i =  sql.updateContact(c);
-                        updateContactToCallVariable();
-                       // Log.v("i" , i+"");
-                    } catch (Exception ex){
-                        ex.printStackTrace();
                     }
 
                 }
+            };
 
+            updateThread = new Thread(run);
+            updateThread.start();
+            try {
+                updateThread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
-                stopSelf();
+            adapter = new ContactAdapter(getApplicationContext(), updateContacts, sql);
+            adapter.notifyDataSetChanged();
+
+            //Log.v("thread" , callNotification+"");
+            if (callNotification) {
+
+                contactNotification = new ContactNotification(getApplicationContext(), contactToCall);
+                contactNotification.sendNotification();
+
+                callNotification = false;
 
             }
-        };
+//        }
 
-        updateThread = new Thread(run);
-        updateThread.start();
-        try {
-            updateThread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        stopSelf();
 
-        adapter = new ContactAdapter(getApplicationContext() , updateContacts , sql);
-        adapter.notifyDataSetChanged();
-
-        //Log.v("thread" , callNotification+"");
-        if(callNotification){
-
-            contactNotification = new ContactNotification(getApplicationContext() , contactToCall);
-            contactNotification.sendNotification();
-
-            callNotification = false;
-
-        }
         return  START_STICKY;
     }
 
@@ -173,14 +196,14 @@ public class UpdateDatabaseService extends Service{
 
         }
 
-        //Log.v("sharedpref", sharedPreferenceHelper.readIsReminderNoticiation()+"");
+        //Log.v("sharedpref", sharedPreferenceHelper.readIsReminderNotification()+"");
 
 
         return new Contact(id, lookUpKey,displayName, daySinceLastCall,lastCallDuration);
     }
 
     private void updateContactToCallVariable() {
-        if(sharedPreferenceHelper.readIsReminderNoticiation() && (daySinceLastCall >= reminderDays || daySinceLastCall == NEVER_CONTACTED)){
+        if(sharedPreferenceHelper.readIsReminderNotification() && (daySinceLastCall >= reminderDays || daySinceLastCall == NEVER_CONTACTED)){
             contactToCall++;
             callNotification = true;
             //Log.v("notification", contactToCall + "");
@@ -228,6 +251,12 @@ public class UpdateDatabaseService extends Service{
             return Integer.parseInt(duration);
         }
         return 0;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.v("db 1", "destroy");
     }
 
     @Nullable

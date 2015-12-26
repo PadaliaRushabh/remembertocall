@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
 
 
@@ -33,13 +34,20 @@
         </activity>
 
         <service
-            android:name=".UpdateDatabaseService.UpdateDatabaseService"
+            android:name=".service.UpdateDatabaseService"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/service_name"
             android:enabled="true">
         </service>
+
+        <service
+            android:name=".service.UpdateDatabaseOnCallService"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/service_name_on_call"
+            android:enabled="true">
+        </service>
         <receiver
-            android:name=".updateDatabaseServiceReceiver.ActionReceiver"
+            android:name=".broadcastReceiver.ActionReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -50,7 +58,12 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".updateDatabaseServiceReceiver.UpdateDatabaseReceiver" />
+        <receiver android:name=".broadcastReceiver.UpdateDatabaseReceiver" />
+        <receiver android:name=".broadcastReceiver.IncomingCallReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.PHONE_STATE" />
+            </intent-filter>
+        </receiver>
 
 
     </application>

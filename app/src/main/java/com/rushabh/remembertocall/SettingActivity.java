@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -43,7 +42,7 @@ public class SettingActivity extends AppCompatActivity {
         swt_notificationIsEnabled = (Switch) findViewById(R.id.switch_notification);
 
         reminderDays = sharedPreferenceHelper.readReminder();
-        notificationIsEnabled = sharedPreferenceHelper.readIsReminderNoticiation();
+        notificationIsEnabled = sharedPreferenceHelper.readIsReminderNotification();
 
         txt_hours = (TextView) findViewById(R.id.txt_time);
         txt_hours.setText(sharedPreferenceHelper.readNotificationHour() + ":" + sharedPreferenceHelper.readNotificationMinute());
@@ -81,7 +80,7 @@ public class SettingActivity extends AppCompatActivity {
             case android.R.id.home:
 
                 sharedPreferenceHelper.writeReminder(Integer.parseInt(txt_reminderDays.getText().toString()));
-                sharedPreferenceHelper.writeIsReminderNoticiation(swt_notificationIsEnabled.isChecked());
+                sharedPreferenceHelper.writeIsReminderNotification(swt_notificationIsEnabled.isChecked());
 
                 Intent intent = new Intent();
                 intent.setAction("com.rushabh.remenbertocall.NOTIFICATION_TIME_CHANGE");

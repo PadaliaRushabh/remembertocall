@@ -138,4 +138,10 @@ public class SqlLiteHelper extends SQLiteOpenHelper{
                 new String[] { String.valueOf(contact.getID()) });
         //db.close();
     }
+
+    @Override
+    protected void finalize() throws Throwable {
+        this.close();
+        super.finalize();
+    }
 }
