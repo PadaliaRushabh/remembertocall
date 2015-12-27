@@ -215,6 +215,9 @@ public class MainActivity extends AppCompatActivity {
             lookUpKey = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.LOOKUP_KEY));
             displayName = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.DISPLAY_NAME));
             daySinceLastCall = Long.parseLong(cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.LAST_TIME_CONTACTED)));
+            Log.v("name" , displayName);
+            Log.v("daysinceLast" , daySinceLastCall+"");
+
 
             //Check if contact was ever contacted
             if (daySinceLastCall != 0) {
@@ -227,6 +230,8 @@ public class MainActivity extends AppCompatActivity {
                 daySinceLastCall = NEVER_CONTACTED;
                 lastCallDuration = NEVER_CONTACTED;
             }
+
+            Log.v("daysinceLast" , daySinceLastCall+"");
 
         }
 

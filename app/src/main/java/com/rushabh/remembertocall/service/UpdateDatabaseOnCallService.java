@@ -5,7 +5,9 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -68,7 +70,13 @@ public class UpdateDatabaseOnCallService extends Service {
                 adapter = new ContactAdapter(getApplicationContext(), contacts, sql);
                 if (adapter.isContactAlreadyAdded(c)) {
                     sql.updateContact(c);
-                    adapter.notifyDataSetChanged();
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            adapter.notifyDataSetChanged();
+                        }
+                    });
 
                     Log.v("done" , "done");
                 }

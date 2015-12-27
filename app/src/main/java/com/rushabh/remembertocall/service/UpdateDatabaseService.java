@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Build;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.provider.CallLog;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
@@ -152,8 +154,16 @@ public class UpdateDatabaseService extends Service{
                 e.printStackTrace();
             }
 
+
             adapter = new ContactAdapter(getApplicationContext(), updateContacts, sql);
-            adapter.notifyDataSetChanged();
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+
+                    adapter.notifyDataSetChanged();
+                }
+            });
+
 
             //Log.v("thread" , callNotification+"");
             if (callNotification) {
