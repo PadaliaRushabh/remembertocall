@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 
@@ -35,6 +36,7 @@ public class ContactNotification {
         String text_str = "You haven't called " + this.contactToCall + " contacts in more than " + sharedPreferenceHelper.readReminder() + " Days";
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.ic_notification)
+                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher))
                 .setContentTitle(context.getString(R.string.app_name))
                 .setContentText(text_str)
                 .setDefaults(Notification.DEFAULT_ALL)

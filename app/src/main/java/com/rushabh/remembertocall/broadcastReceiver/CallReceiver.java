@@ -6,13 +6,14 @@ import android.content.Intent;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
+import com.rushabh.remembertocall.R;
 import com.rushabh.remembertocall.service.UpdateDatabaseOnCallService;
 import com.rushabh.remembertocall.sharedPreferenceHelper.SharedPreferenceHelper;
 
 /**
  * Created by rushabh on 26/12/15.
  */
-public class IncomingCallReceiver extends BroadcastReceiver {
+public class CallReceiver extends BroadcastReceiver {
     String incomingNumber;
     String KEY_NUMBER = "key_number";
     SharedPreferenceHelper sharedPreferenceHelper;
@@ -22,14 +23,15 @@ public class IncomingCallReceiver extends BroadcastReceiver {
 
         sharedPreferenceHelper = new SharedPreferenceHelper(context);
         Log.v("receiver" , this.getClass().toString());
+        incomingNumber = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);
 
         if (intent.getStringExtra(TelephonyManager.EXTRA_STATE).equals(TelephonyManager.EXTRA_STATE_RINGING)) {
             // This code will execute when the phone has an incoming call
 
             // get the phone number
 
-            incomingNumber = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);
-            sharedPreferenceHelper.writeIncomingCallNumber(incomingNumber);
+            //incomingNumber = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);
+            //sharedPreferenceHelper.writeIncomingCallNumber(incomingNumber);
             Log.v("number-1" , incomingNumber);
 
 
@@ -40,9 +42,9 @@ public class IncomingCallReceiver extends BroadcastReceiver {
 
             // use this to start and trigger a service
             Intent i= new Intent(context, UpdateDatabaseOnCallService.class);
-            Log.v("number-2", sharedPreferenceHelper.readIncomingCallNumber());
+            //Log.v("number-2", sharedPreferenceHelper.readIncomingCallNumber());
             // potentially add data to the intent
-            //i.putExtra(context.getResources().getString(R.string.key_number), sharedPreferenceHelper.readIncomingCallNumber());
+            i.putExtra(context.getResources().getString(R.string.key_number), incomingNumber);
             context.startService(i);
 
 
