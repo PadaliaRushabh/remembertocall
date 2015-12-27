@@ -162,6 +162,7 @@ public class MainActivity extends AppCompatActivity {
             sharedPreferenceHelper.writeReminder(DEFAULT_REMINDER);
             sharedPreferenceHelper.writeNotificationHour(DEFAULT_HOUR);
             sharedPreferenceHelper.writeNotificationMinute(DEFAULT_MINUTE);
+            sharedPreferenceHelper.writeCallNumber("0");
 
             sharedPreferenceHelper.writeFirstLaunch();
             Intent i= new Intent(getApplicationContext(), UpdateDatabaseService.class);

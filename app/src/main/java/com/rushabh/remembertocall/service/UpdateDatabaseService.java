@@ -90,9 +90,9 @@ public class UpdateDatabaseService extends Service{
 /*        Contact c;
         String phoneNumber = "0";
         //Log.v("call" , phoneNumber+"");
-        if(!sharedPreferenceHelper.readIncomingCallNumber().equals("0")){
-            phoneNumber = sharedPreferenceHelper.readIncomingCallNumber();
-            sharedPreferenceHelper.writeIncomingCallNumber("0");
+        if(!sharedPreferenceHelper.readCallNumber().equals("0")){
+            phoneNumber = sharedPreferenceHelper.readCallNumber();
+            sharedPreferenceHelper.writeCallNumber("0");
 
             ContentResolver cr = getApplicationContext().getContentResolver();
             Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phoneNumber));

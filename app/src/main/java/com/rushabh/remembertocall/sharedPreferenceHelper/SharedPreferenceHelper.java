@@ -81,13 +81,13 @@ public class SharedPreferenceHelper {
         return  isEnabled;
     }
 
-    public void writeIncomingCallNumber(String number){
+    public void writeCallNumber(String number){
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(context.getString(R.string.preference_key_incomming_call_number), number);
         editor.commit();
     }
 
-    public String readIncomingCallNumber(){
+    public String readCallNumber(){
         String number = sharedPreferences.getString(context.getString(R.string.preference_key_incomming_call_number), DEFAULT_INCOMING_NUMBER);
         return  number;
     }

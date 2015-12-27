@@ -12,6 +12,7 @@ import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.rushabh.remembertocall.R;
 import com.rushabh.remembertocall.adapter.ContactAdapter;
 import com.rushabh.remembertocall.model.Contact;
 import com.rushabh.remembertocall.sharedPreferenceHelper.SharedPreferenceHelper;
@@ -53,12 +54,12 @@ public class UpdateDatabaseOnCallService extends Service {
 
 
         Contact c;
-        String phoneNumber = "0";
+        String phoneNumber = sharedPreferenceHelper.readCallNumber();
+        Log.d("Db" , phoneNumber);
         //Log.v("call" , phoneNumber+"");
 
-        if (!sharedPreferenceHelper.readIncomingCallNumber().equals("0")) {
-            phoneNumber = sharedPreferenceHelper.readIncomingCallNumber();
-            sharedPreferenceHelper.writeIncomingCallNumber("0");
+        if (!phoneNumber.equals("0")) {
+            sharedPreferenceHelper.writeCallNumber("0");
 
             ContentResolver cr = getApplicationContext().getContentResolver();
             Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phoneNumber));

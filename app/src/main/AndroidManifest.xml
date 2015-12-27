@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
 
 
     <application
@@ -59,9 +59,10 @@
         </receiver>
 
         <receiver android:name=".broadcastReceiver.UpdateDatabaseReceiver" />
-        <receiver android:name=".broadcastReceiver.IncomingCallReceiver">
+        <receiver android:name=".broadcastReceiver.CallReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.PHONE_STATE" />
+                <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
             </intent-filter>
         </receiver>
 
