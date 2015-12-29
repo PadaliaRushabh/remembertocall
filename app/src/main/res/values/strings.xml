@@ -46,6 +46,7 @@
     <string name="copyright">Copyright 2015 Rushabh Padalia</string>
     <string name="action_about">about</string>
     <string name="about_app_description">Remember to Call is a simple app to help you track how long it has been since you have contacted your contact. Remember to call is a great way to keep in touch!</string>
+    <string name="setting_about">About</string>
 </resources>
 
 
