@@ -75,6 +75,11 @@ public class Contact {
         return result;
     }
 
+    @Override
+    public String toString() {
+        return "Name:" + this.getDisplayName() + " ID:" + this.getID() + " all:" + super.toString();
+    }
+
     public String getLookUpKey() {
         return lookUpKey;
     }

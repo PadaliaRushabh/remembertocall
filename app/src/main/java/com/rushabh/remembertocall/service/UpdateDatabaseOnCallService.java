@@ -68,9 +68,11 @@ public class UpdateDatabaseOnCallService extends Service {
             if (cursor != null) {
                 ServiceHelper s = new ServiceHelper(getApplicationContext());
                 c = s.getContact(cursor);
-                adapter = new ContactAdapter(getApplicationContext(), contacts, sql);
-                if (adapter.isContactAlreadyAdded(c)) {
-                    sql.updateContact(c);
+                Log.d("c" , c.toString());
+                if(c.getDisplayName() != null && c.getID() != 0) {
+                    adapter = new ContactAdapter(getApplicationContext(), contacts, sql);
+                    if (adapter.isContactAlreadyAdded(c)) {
+                        sql.updateContact(c);
 /*                    int p = adapter.getItemPosition(c);
                     adapter.removeContact(p);
                     adapter.addContact(c);*/
@@ -82,9 +84,10 @@ public class UpdateDatabaseOnCallService extends Service {
                         }
                     });*/
 
-                    sharedPreferenceHelper.writeIsRefreshRequired(true);
+                        sharedPreferenceHelper.writeIsRefreshRequired(true);
 
-                    Log.v("done" , "done");
+                        Log.v("done", "done");
+                    }
                 }
             }
 
@@ -104,4 +107,6 @@ public class UpdateDatabaseOnCallService extends Service {
     public IBinder onBind(Intent intent) {
         return null;
     }
+
+
 }
