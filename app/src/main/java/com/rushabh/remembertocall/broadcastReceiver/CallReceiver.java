@@ -86,15 +86,17 @@ public class CallReceiver extends BroadcastReceiver {
 
                 switch (state){
                     case TelephonyManager.CALL_STATE_RINGING:
-                        Log.d("RINGING", incomingNumber);
+                        //Log.d("RINGING", incomingNumber);
                         sharedPreferenceHelper.writeCallNumber(incomingNumber);
                         break;
                     case TelephonyManager.CALL_STATE_OFFHOOK:
-                        Log.d("OFFHOOK", incomingNumber);
+                        //Log.d("OFFHOOK", incomingNumber);
 
-                        Log.d("OFFHOOK", "OFFHOOK");
+                        //Log.d("OFFHOOK", "OFFHOOK");
                         break;
                     case TelephonyManager.CALL_STATE_IDLE:
+
+                        //if outgoing call then it will be 0
                         if(sharedPreferenceHelper.readCallNumber().equals("0")){
                             sharedPreferenceHelper.writeCallNumber(intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER));
                         }

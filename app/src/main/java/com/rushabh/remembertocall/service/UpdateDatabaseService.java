@@ -156,13 +156,14 @@ public class UpdateDatabaseService extends Service{
 
 
             adapter = new ContactAdapter(getApplicationContext(), updateContacts, sql);
-            new Handler(Looper.getMainLooper()).post(new Runnable() {
+   /*         new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
 
                     adapter.notifyDataSetChanged();
                 }
-            });
+            });*/
+            sharedPreferenceHelper.writeIsRefreshRequired(true);
 
 
             //Log.v("thread" , callNotification+"");

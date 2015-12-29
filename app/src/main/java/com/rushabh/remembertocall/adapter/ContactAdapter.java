@@ -56,6 +56,17 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.CustomVi
         return contacts.get(position);
     }
 
+    public int getItemPosition(Contact contact){
+        int count = 0;
+        for(Contact c: contacts){
+            if(isContactAlreadyAdded(c)){
+                return count;
+            }
+            count++;
+        }
+        return -1;
+    }
+
     public ContactAdapter(Context context){
         this.context = context;
     }

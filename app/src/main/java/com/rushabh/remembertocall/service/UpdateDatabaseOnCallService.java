@@ -71,13 +71,18 @@ public class UpdateDatabaseOnCallService extends Service {
                 adapter = new ContactAdapter(getApplicationContext(), contacts, sql);
                 if (adapter.isContactAlreadyAdded(c)) {
                     sql.updateContact(c);
-                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+/*                    int p = adapter.getItemPosition(c);
+                    adapter.removeContact(p);
+                    adapter.addContact(c);*/
+                 /*   new Handler(Looper.getMainLooper()).post(new Runnable() {
                         @Override
                         public void run() {
 
                             adapter.notifyDataSetChanged();
                         }
-                    });
+                    });*/
+
+                    sharedPreferenceHelper.writeIsRefreshRequired(true);
 
                     Log.v("done" , "done");
                 }

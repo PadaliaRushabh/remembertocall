@@ -23,6 +23,7 @@
     <string name="key_number">key_number</string>
     <string name="preference_key_incomming_call_number">preference_key_incomming_call_number</string>
     <string name="service_name_on_call">Update Database Oncall Service</string>
+    <string name="preference_key_reminder_is_refresh_required">preference_key_reminder_is_refresh_required</string>
 </resources>
 
 

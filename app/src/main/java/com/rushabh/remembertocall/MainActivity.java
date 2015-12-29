@@ -163,6 +163,7 @@ public class MainActivity extends AppCompatActivity {
             sharedPreferenceHelper.writeNotificationHour(DEFAULT_HOUR);
             sharedPreferenceHelper.writeNotificationMinute(DEFAULT_MINUTE);
             sharedPreferenceHelper.writeCallNumber("0");
+            sharedPreferenceHelper.writeIsRefreshRequired(false);
 
             sharedPreferenceHelper.writeFirstLaunch();
             Intent i= new Intent(getApplicationContext(), UpdateDatabaseService.class);
@@ -218,6 +219,7 @@ public class MainActivity extends AppCompatActivity {
             daySinceLastCall = Long.parseLong(cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.LAST_TIME_CONTACTED)));
             Log.v("name" , displayName);
             Log.v("daysinceLast" , daySinceLastCall+"");
+            Log.v("daysinceLast" , daySinceLastCall - System.currentTimeMillis()+"");
 
 
             //Check if contact was ever contacted
@@ -294,5 +296,17 @@ public class MainActivity extends AppCompatActivity {
             default:
                 lastCallDuration = PERMISSION_FOR_DURATION_DENIED;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if(sharedPreferenceHelper.readIsRefreshRequired()) {
+            sharedPreferenceHelper.writeIsRefreshRequired(false);
+            AdapterInit();
+            adapter.notifyDataSetChanged();
+        }
+
     }
 }

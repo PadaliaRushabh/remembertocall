@@ -93,4 +93,16 @@ public class SharedPreferenceHelper {
     }
 
 
+    public void writeIsRefreshRequired(boolean isReguired){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(context.getString(R.string.preference_key_reminder_is_refresh_required), isReguired);
+        editor.commit();
+    }
+
+    public boolean readIsRefreshRequired(){
+        boolean isReguired = sharedPreferences.getBoolean(context.getString(R.string.preference_key_reminder_is_refresh_required), true);
+        return  isReguired;
+    }
+
+
 }
