@@ -104,7 +104,12 @@ public class MainActivity extends AppCompatActivity {
                 Contact c = getContact(cursor);*/
 
                 Cursor cursor_lookup = adapter.getCursorFromLookUpKey(adapter.getItem(position).getID(), adapter.getItem(position).getLookUpKey());
-                Contact c = getContact(cursor_lookup);
+                Contact c = null;
+                try {
+                    c = getContact(cursor_lookup);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
 /*                Log.v("new" , c.getID()+"");
                 Log.v("new" , adapter.getItem(position).getID()+"");*/
@@ -154,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setDatabaseServiceIfFirstLaunch() {
 
-        Log.v("launch" , sharedPreferenceHelper.readFirstLaunch()+"");
+        Log.v("launch", sharedPreferenceHelper.readFirstLaunch() + "");
 
         if(sharedPreferenceHelper.readFirstLaunch() == true){
 
@@ -197,26 +202,34 @@ public class MainActivity extends AppCompatActivity {
             uriContact = data.getData();
             cursor = getApplicationContext().getContentResolver().query(uriContact, null, null, null, null);
 
-            Contact contact = getContact(cursor);
+            try {
+                Contact contact = getContact(cursor);
 
-            boolean contactAddedSuccess = adapter.addContact(contact);
-            if(contactAddedSuccess){
-                adapter.notifyDataSetChanged();
-                adapter.viewVisibilityToggle(contactListView, noContact);
-            } else{
-                Toast.makeText(getApplicationContext() , contact.getDisplayName() + " is already added", Toast.LENGTH_SHORT).show();
+                boolean contactAddedSuccess = adapter.addContact(contact);
+                if (contactAddedSuccess) {
+                    adapter.notifyDataSetChanged();
+                    adapter.viewVisibilityToggle(contactListView, noContact);
+                } else {
+                    Toast.makeText(getApplicationContext(), contact.getDisplayName() + " is already added", Toast.LENGTH_SHORT).show();
+                }
+            }catch (Exception ex){
+                Toast.makeText(getApplicationContext(), ex.getMessage(), Toast.LENGTH_SHORT).show();
             }
 
         }
     }
 
     @NonNull
-    public Contact getContact(Cursor cursor) {
+    public Contact getContact(Cursor cursor) throws Exception {
         if (cursor.moveToFirst()) {
             id = Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts._ID)));
             lookUpKey = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.LOOKUP_KEY));
             displayName = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.DISPLAY_NAME));
             daySinceLastCall = Long.parseLong(cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.LAST_TIME_CONTACTED)));
+            int hasPhone = cursor.getInt(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER));
+            if(hasPhone == 0){
+                throw  new Exception("Contact " + displayName + " has No Phone Number");
+            }
             Log.v("name" , displayName);
             Log.v("daysinceLast" , daySinceLastCall+"");
             Log.v("daysinceLast" , daySinceLastCall - System.currentTimeMillis()+"");
