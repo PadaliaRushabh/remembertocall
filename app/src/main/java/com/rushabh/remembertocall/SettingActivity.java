@@ -15,6 +15,11 @@ import android.widget.Toast;
 
 import com.rushabh.remembertocall.sharedPreferenceHelper.SharedPreferenceHelper;
 
+import org.joda.time.DateTime;
+import org.joda.time.LocalTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 import java.util.Calendar;
 
 /**
@@ -45,7 +50,10 @@ public class SettingActivity extends AppCompatActivity {
         notificationIsEnabled = sharedPreferenceHelper.readIsReminderNotification();
 
         txt_hours = (TextView) findViewById(R.id.txt_time);
-        txt_hours.setText(sharedPreferenceHelper.readNotificationHour() + ":" + sharedPreferenceHelper.readNotificationMinute());
+
+        LocalTime time1 = new LocalTime(sharedPreferenceHelper.readNotificationHour(), sharedPreferenceHelper.readNotificationMinute());
+        String formattedTime = time1.toString("HH:mm");
+        txt_hours.setText(formattedTime);
 
         txt_hours.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,7 +65,9 @@ public class SettingActivity extends AppCompatActivity {
                 mTimePicker = new TimePickerDialog(SettingActivity.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                        txt_hours.setText(selectedHour + ":" + selectedMinute);
+                        LocalTime time1 = new LocalTime(selectedHour, selectedMinute);
+                        String formattedTime = time1.toString("HH:mm");
+                        txt_hours.setText(formattedTime);
                         sharedPreferenceHelper.writeNotificationHour(selectedHour);
                         sharedPreferenceHelper.writeNotificationMinute(selectedMinute);
                     }
