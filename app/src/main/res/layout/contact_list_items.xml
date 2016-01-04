@@ -1,64 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:clickable="true"
-    android:focusable="true"
-    android:background="?selectableItemBackground">
+    >
 
 
-
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/layout_contact"
-        android:orientation="vertical">
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="@dimen/sixteen_dp"
+        android:background="?selectableItemBackground"
+        >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:layout_alignParentLeft="true"
             android:text="Rushabh Padalia"
-            android:layout_marginTop="15dp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sixteen_sp"
             android:id="@+id/txt_contactname" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:layout_alignParentLeft="true"
+            android:textColor="@color/grey"
+            android:layout_marginTop="@dimen/eight_dp"
+            android:textSize="@dimen/fourteen_sp"
             android:text="20 Days Ago"
-            android:layout_marginTop="5dp"
-            android:id="@+id/txt_lastcallsince" />
-        </LinearLayout>
+            android:id="@+id/txt_lastcallsince"
+            android:layout_below="@+id/txt_contactname" />
+
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/sixteen_sp"
             android:text="20 Dec"
             android:id="@+id/txt_lastcalldate" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@+id/layout_contact"
-            android:layout_marginTop="15dp"
+    </RelativeLayout>
 
-            android:background="@android:color/darker_gray"/>
-
-
-
-       <!-- <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:layout_alignParentRight="true"
-            android:text="20 Dec"
-            android:id="@+id/txt_lastcallduration" /> -->
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/layout_contact"
+        android:background="@color/grey"/>
 
 </RelativeLayout>
