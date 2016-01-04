@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
     ContactAdapter adapter;
 
     SharedPreferenceHelper sharedPreferenceHelper;
+    ArrayList<Contact> contacts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,9 +125,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void AdapterInit() {
-        ArrayList<Contact> contacts = (ArrayList) sql.getAllContacts();
+        contacts = (ArrayList) sql.getAllContacts();
         adapter = new ContactAdapter(getApplicationContext() , contacts, sql);
         contactListView.setAdapter(adapter);
+    }
+
+    private void updateAdapter(){
+        contacts.clear();
+        contacts = (ArrayList) sql.getAllContacts();
+        adapter.notifyDataSetChanged();
     }
 
     private void widgetInit() {
@@ -321,8 +328,8 @@ public class MainActivity extends AppCompatActivity {
 
         if(sharedPreferenceHelper.readIsRefreshRequired()) {
             sharedPreferenceHelper.writeIsRefreshRequired(false);
-            AdapterInit();
-            adapter.notifyDataSetChanged();
+            updateAdapter();
+           // adapter.notifyDataSetChanged();
         }
 
     }

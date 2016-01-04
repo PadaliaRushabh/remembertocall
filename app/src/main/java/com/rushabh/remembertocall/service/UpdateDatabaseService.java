@@ -133,7 +133,8 @@ public class UpdateDatabaseService extends Service{
                                     new String[]{lookup_contact.getID() + ""}, null);
 
                             Contact c = getContact(cursor);
-                            updateContacts.add(c);
+                            //updateContacts.add(c);
+                            //Log.d("co" , c.toString());
                             int i = sql.updateContact(c);
                             updateContactToCallVariable();
                             // Log.v("i" , i+"");
@@ -154,8 +155,8 @@ public class UpdateDatabaseService extends Service{
                 e.printStackTrace();
             }
 
-
-            adapter = new ContactAdapter(getApplicationContext(), updateContacts, sql);
+        //Log.d("ad" ,"adapter" );
+            //adapter = new ContactAdapter(getApplicationContext(), updateContacts, sql);
    /*         new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {

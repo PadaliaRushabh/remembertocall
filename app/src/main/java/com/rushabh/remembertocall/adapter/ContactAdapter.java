@@ -133,6 +133,8 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.CustomVi
 
 
     public void removeContact(int position){
+        Log.d("size" , this.contacts.size()+"");
+        Log.d("size" , position+"");
         sql.deleteContact(this.contacts.get(position));
 
         this.contacts.remove(position);
