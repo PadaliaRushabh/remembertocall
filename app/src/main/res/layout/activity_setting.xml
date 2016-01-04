@@ -6,7 +6,6 @@
     android:background="@color/appBackground">
 
 
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -18,7 +17,7 @@
 
         <EditText
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="35dp"
             android:inputType="numberSigned"
             android:ems="10"
             android:layout_marginRight="@dimen/eight_dp"
