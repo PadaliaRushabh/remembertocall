@@ -131,9 +131,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateAdapter(){
-        contacts.clear();
-        contacts = (ArrayList) sql.getAllContacts();
-        adapter.notifyDataSetChanged();
+        adapter.refershContacts();
     }
 
     private void widgetInit() {

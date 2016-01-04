@@ -141,6 +141,12 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.CustomVi
         notifyItemRemoved(position);
     }
 
+    public void refershContacts(){
+        this.contacts.clear();
+        this.contacts = (ArrayList) sql.getAllContacts();
+        notifyDataSetChanged();
+    }
+
     public boolean isContactAlreadyAdded(Contact contact){
 
         return  contacts.contains(contact);
