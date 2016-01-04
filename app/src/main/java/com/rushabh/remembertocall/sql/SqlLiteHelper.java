@@ -125,7 +125,6 @@ public class SqlLiteHelper extends SQLiteOpenHelper{
         values.put(COLUMN_LAST_CALL_DATE, contact.getDaySinceLastCall()); // Contact last call date
         values.put(COLUMN_LAST_CALL_DURATION, contact.getLastCallDuration()); // Contact last call duration
 
-        //Log.v("name" , contact.getDisplayName());
         // updating row
         return db.update(TABLE, values, COLUMN_DISPLAY_NAME + " = ?",
                 new String[] { String.valueOf(contact.getDisplayName()) });

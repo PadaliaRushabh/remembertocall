@@ -76,10 +76,6 @@ public class UpdateDatabaseService extends Service{
         sharedPreferenceHelper = new SharedPreferenceHelper(getApplicationContext());
         reminderDays = sharedPreferenceHelper.readReminder();
         adapter = new ContactAdapter(getApplicationContext());
-        Log.v("service" , this.getClass().toString());
-
-     /*   contactNotification = new ContactNotification(getApplicationContext() , contactToCall);
-        contactNotification.sendNotification();*/
 
     }
 
@@ -87,27 +83,6 @@ public class UpdateDatabaseService extends Service{
     public int onStartCommand(Intent intent, int flags, int startId) {
         updateContacts.clear();
 
-/*        Contact c;
-        String phoneNumber = "0";
-        //Log.v("call" , phoneNumber+"");
-        if(!sharedPreferenceHelper.readCallNumber().equals("0")){
-            phoneNumber = sharedPreferenceHelper.readCallNumber();
-            sharedPreferenceHelper.writeCallNumber("0");
-
-            ContentResolver cr = getApplicationContext().getContentResolver();
-            Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phoneNumber));
-            Cursor cursor = cr.query(uri, null, ContactsContract.PhoneLookup.DISPLAY_NAME + "= ?", new String[]{phoneNumber}, null);
-
-            if(cursor != null){
-                c = getContact(cursor);
-                adapter = new ContactAdapter(getApplicationContext(), contacts , sql);
-                if(adapter.isContactAlreadyAdded(c)) {
-                    sql.updateContact(c);
-                    adapter.notifyDataSetChanged();
-                }
-            }
-
-        } else {*/
 
             run = new Runnable() {
                 @Override
@@ -120,12 +95,9 @@ public class UpdateDatabaseService extends Service{
 
                             long ID = contact.getID();
                             String LookupKey = contact.getLookUpKey();
-                            Log.v("lookup", LookupKey);
-
                             Cursor cursor = adapter.getCursorFromLookUpKey(ID, LookupKey);
                             Contact lookup_contact = getContact(cursor);
 
-                            //Log.v("params" , params);
                             cursor = getApplicationContext().getContentResolver().query(
                                     ContactsContract.Contacts.CONTENT_URI,
                                     null,
@@ -133,11 +105,9 @@ public class UpdateDatabaseService extends Service{
                                     new String[]{lookup_contact.getID() + ""}, null);
 
                             Contact c = getContact(cursor);
-                            //updateContacts.add(c);
-                            //Log.d("co" , c.toString());
+
                             int i = sql.updateContact(c);
                             updateContactToCallVariable();
-                            // Log.v("i" , i+"");
                         } catch (Exception ex) {
                             ex.printStackTrace();
                         }
@@ -155,19 +125,8 @@ public class UpdateDatabaseService extends Service{
                 e.printStackTrace();
             }
 
-        //Log.d("ad" ,"adapter" );
-            //adapter = new ContactAdapter(getApplicationContext(), updateContacts, sql);
-   /*         new Handler(Looper.getMainLooper()).post(new Runnable() {
-                @Override
-                public void run() {
-
-                    adapter.notifyDataSetChanged();
-                }
-            });*/
             sharedPreferenceHelper.writeIsRefreshRequired(true);
 
-
-            //Log.v("thread" , callNotification+"");
             if (callNotification) {
 
                 contactNotification = new ContactNotification(getApplicationContext(), contactToCall);
@@ -176,8 +135,6 @@ public class UpdateDatabaseService extends Service{
                 callNotification = false;
 
             }
-//        }
-
         stopSelf();
 
         return  START_STICKY;
@@ -191,10 +148,6 @@ public class UpdateDatabaseService extends Service{
             displayName = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.DISPLAY_NAME));
             daySinceLastCall = Long.parseLong(cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.LAST_TIME_CONTACTED)));
 
-           /* Log.v("id" , id+"");
-            Log.v("displayName" , displayName+"");
-            Log.v("daySinceLastCall" , daySinceLastCall+"");*/
-            //Check if contact was ever contacted
             if (daySinceLastCall != 0) {
                 DateTime endDate = new DateTime();
                 DateTime startDate = DateTime.parse(getDate(daySinceLastCall), DateTimeFormat.forPattern("dd/MM/yyyy"));

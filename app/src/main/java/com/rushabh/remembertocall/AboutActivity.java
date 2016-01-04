@@ -41,27 +41,5 @@ public class AboutActivity extends AppCompatActivity {
 
     }
 
-/*
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-
-                sharedPreferenceHelper.writeReminder(Integer.parseInt(txt_reminderDays.getText().toString()));
-                sharedPreferenceHelper.writeIsReminderNotification(swt_notificationIsEnabled.isChecked());
-
-                Intent intent = new Intent();
-                intent.setAction("com.rushabh.remenbertocall.NOTIFICATION_TIME_CHANGE");
-                sendBroadcast(intent);
-
-                Toast.makeText(getApplicationContext(), getResources().getString(R.string.setting_saved_toast) ,Toast.LENGTH_SHORT).show();
-
-                NavUtils.navigateUpFromSameTask(this);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }*/
-
 
 }

@@ -19,13 +19,9 @@ public class ActionReceiver extends BroadcastReceiver {
     SharedPreferenceHelper sharedPreferenceHelper;
     @Override
     public void onReceive(Context context, Intent intent) {
-
-        Log.v("action", intent.getAction());
         if(intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED) || intent.getAction().equals(Intent.ACTION_MY_PACKAGE_REPLACED) || intent.getAction().equals("com.rushabh.remenbertocall.NOTIFICATION_TIME_CHANGE")){
             sharedPreferenceHelper = new SharedPreferenceHelper(context);
 
-            //Log.i("name", intent.getAction());
-            // Set the alarm to start at approximately 1:00 a.m.
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(System.currentTimeMillis());
             calendar.set(Calendar.HOUR_OF_DAY, sharedPreferenceHelper.readNotificationHour());
@@ -43,10 +39,6 @@ public class ActionReceiver extends BroadcastReceiver {
            alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                     AlarmManager.INTERVAL_DAY, updateDatabaseIntent);
 
-            /*alarmMgr.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                    0,
-                    1000 * 60 * 2,
-                    updateDatabaseIntent);
-*/        }
+        }
     }
 }

@@ -50,10 +50,6 @@ public class ServiceHelper {
             displayName = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.DISPLAY_NAME));
             daySinceLastCall = Long.parseLong(cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.LAST_TIME_CONTACTED)));
 
-           /* Log.v("id" , id+"");
-            Log.v("displayName" , displayName+"");
-            Log.v("daySinceLastCall" , daySinceLastCall+"");*/
-            //Check if contact was ever contacted
             if (daySinceLastCall != 0) {
                 DateTime endDate = new DateTime();
                 DateTime startDate = DateTime.parse(getDate(daySinceLastCall), DateTimeFormat.forPattern("dd/MM/yyyy"));
@@ -66,9 +62,6 @@ public class ServiceHelper {
             }
 
         }
-
-        //Log.v("sharedpref", sharedPreferenceHelper.readIsReminderNotification()+"");
-
 
         return new Contact(id, lookUpKey,displayName, daySinceLastCall,lastCallDuration);
     }

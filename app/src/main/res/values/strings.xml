@@ -10,7 +10,7 @@
     <string name="preference_key_hour">preference_key_hour</string>
     <string name="setting_activity">Settings</string>
 
-    <string name="setting_label_reminder">Remind me every</string>
+    <string name="setting_label_reminder">Remind me after</string>
     <string name="setting_label_reminder_days">Days</string>
 
     <string name="setting_label_notification">Enable daily notifications</string>
@@ -33,17 +33,11 @@
 
 
     <string name="license">
-        The following software may be included in this product: joda time. This software contains the following license\n
-        Apache License\n
-        Version 2.0, January 2004\n
-        http://www.apache.org/licenses/\n
-        \n
-        The following software may be included in this product: FloatingActionButton. This software contains the following license\n
-        The MIT License (MIT)
-        Copyright (c) 2014 Oleksandr Melnykov
+        The following software may be included in this product: joda time. This software contains the following license\nApache License\nVersion 2.0, January 2004\nhttp://www.apache.org/licenses/\n
+        \nThe following software may be included in this product: FloatingActionButton. This software contains the following license\nThe MIT License (MIT)Copyright (c) 2014 Oleksandr Melnykov
     </string>
     <string name="copyright">Copyright 2015 Rushabh Padalia</string>
-    <string name="action_about">about</string>
+    <string name="action_about">About</string>
     <string name="about_app_description">Remember to Call is a simple app to help you track how long it has been since you have contacted your contact. Remember to call is a great way to keep in touch!</string>
     <string name="setting_about">About</string>
 </resources>

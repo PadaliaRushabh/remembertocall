@@ -97,13 +97,6 @@ public class MainActivity extends AppCompatActivity {
 
                 //Get Look_UP URI
 
-          /*      Uri lookUpUri = ContactsContract.Contacts.getLookupUri(adapter.getItem(position).getID(), adapter.getItem(position).getLookUpKey());
-                Uri contentUri = ContactsContract.Contacts.lookupContact(getContentResolver(), lookUpUri);
-
-                cursor = getApplicationContext().getContentResolver().query(contentUri, null, null, null, null);
-
-                Contact c = getContact(cursor);*/
-
                 Cursor cursor_lookup = adapter.getCursorFromLookUpKey(adapter.getItem(position).getID(), adapter.getItem(position).getLookUpKey());
                 Contact c = null;
                 try {
@@ -112,11 +105,7 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-/*                Log.v("new" , c.getID()+"");
-                Log.v("new" , adapter.getItem(position).getID()+"");*/
-
                 Uri contactUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, c.getID());
-                //Uri contactUri = ContentUris.withAppendedId(contentUri, adapter.getItem(position).getID())
 
                 Intent intent = new Intent(Intent.ACTION_VIEW, contactUri);
                 startActivity(intent);
@@ -163,8 +152,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setDatabaseServiceIfFirstLaunch() {
-
-        Log.v("launch", sharedPreferenceHelper.readFirstLaunch() + "");
 
         if(sharedPreferenceHelper.readFirstLaunch() == true){
 
@@ -239,10 +226,6 @@ public class MainActivity extends AppCompatActivity {
             if(hasPhone == 0){
                 throw  new Exception("Contact " + displayName + " has No Phone Number");
             }
-            Log.v("name" , displayName);
-            Log.v("daysinceLast" , daySinceLastCall+"");
-            Log.v("daysinceLast" , daySinceLastCall - System.currentTimeMillis()+"");
-
 
             //Check if contact was ever contacted
             if (daySinceLastCall != 0) {
@@ -255,8 +238,6 @@ public class MainActivity extends AppCompatActivity {
                 daySinceLastCall = NEVER_CONTACTED;
                 lastCallDuration = NEVER_CONTACTED;
             }
-
-            Log.v("daysinceLast" , daySinceLastCall+"");
 
         }
 
@@ -327,7 +308,6 @@ public class MainActivity extends AppCompatActivity {
         if(sharedPreferenceHelper.readIsRefreshRequired()) {
             sharedPreferenceHelper.writeIsRefreshRequired(false);
             updateAdapter();
-           // adapter.notifyDataSetChanged();
         }
 
     }

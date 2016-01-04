@@ -41,12 +41,6 @@ public class UpdateDatabaseOnCallService extends Service {
         sharedPreferenceHelper = new SharedPreferenceHelper(getApplicationContext());
 
         adapter = new ContactAdapter(getApplicationContext());
-
-        Log.v("service", this.getClass().toString());
-
-     /*   contactNotification = new ContactNotification(getApplicationContext() , contactToCall);
-        contactNotification.sendNotification();*/
-
     }
 
     @Override
@@ -55,8 +49,6 @@ public class UpdateDatabaseOnCallService extends Service {
 
         Contact c;
         String phoneNumber = sharedPreferenceHelper.readCallNumber();
-        Log.d("Db" , phoneNumber);
-        //Log.v("call" , phoneNumber+"");
 
         if (!phoneNumber.equals("0")) {
             sharedPreferenceHelper.writeCallNumber("0");
@@ -73,20 +65,8 @@ public class UpdateDatabaseOnCallService extends Service {
                     adapter = new ContactAdapter(getApplicationContext(), contacts, sql);
                     if (adapter.isContactAlreadyAdded(c)) {
                         sql.updateContact(c);
-/*                    int p = adapter.getItemPosition(c);
-                    adapter.removeContact(p);
-                    adapter.addContact(c);*/
-                 /*   new Handler(Looper.getMainLooper()).post(new Runnable() {
-                        @Override
-                        public void run() {
-
-                            adapter.notifyDataSetChanged();
-                        }
-                    });*/
-
                         sharedPreferenceHelper.writeIsRefreshRequired(true);
 
-                        Log.v("done", "done");
                     }
                 }
             }
@@ -99,7 +79,7 @@ public class UpdateDatabaseOnCallService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.v("db 2", "destroy");
+
     }
 
     @Nullable

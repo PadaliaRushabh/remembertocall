@@ -49,8 +49,6 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.CustomVi
     SqlLiteHelper sql;
     private int contactCount = 0;
     Context context;
-    //private int listItemCounter = 0;
-
 
     public Contact getItem(int position){
         return contacts.get(position);
@@ -126,15 +124,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.CustomVi
     }
 
 
-        //Log.v("sharedpref", sharedPreferenceHelper.readIsReminderNotification()+"");
-
-
-
-
-
     public void removeContact(int position){
-        Log.d("size" , this.contacts.size()+"");
-        Log.d("size" , position+"");
         sql.deleteContact(this.contacts.get(position));
 
         this.contacts.remove(position);
@@ -192,17 +182,6 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.CustomVi
 
     }
 
-/*    @TargetApi(Build.VERSION_CODES.KITKAT)
-    private void setTextViewMarginTop(TextView contactName) {
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        params.setMargins(0, 15, 0, 0);
-
-        if(listItemCounter !=0){
-            contactName.setLayoutParams(params);
-        }
-
-        listItemCounter++;
-    }*/
 
     @Override
     public int getItemCount() {
