@@ -7,7 +7,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="72dp"
         android:id="@+id/layout_contact"
         android:clickable="true"
         android:focusable="true"
@@ -15,11 +15,28 @@
         android:background="?selectableItemBackground"
         >
 
+        <RelativeLayout
+            android:id="@+id/rl_initial"
+            android:layout_width="40dp"
+            android:layout_height="fill_parent"
+            android:background="@drawable/ic_circle">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="R"
+                android:textColor="@color/appBackground"
+                android:textSize="@dimen/sixteen_sp"
+                android:id="@+id/inital"
+                android:layout_centerInParent="true" />
+
+        </RelativeLayout>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Rushabh Padalia"
             android:textColor="@color/black"
+            android:layout_marginLeft="72dp"
             android:textSize="@dimen/sixteen_sp"
             android:id="@+id/txt_contactname" />
 
@@ -27,9 +44,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/grey"
-            android:layout_marginTop="@dimen/eight_dp"
+            android:layout_marginLeft="72dp"
+            android:layout_marginTop="4dp"
             android:textSize="@dimen/fourteen_sp"
-            android:text="20 Days Ago"
+            android:text="Last Called : Today"
             android:id="@+id/txt_lastcallsince"
             android:layout_below="@+id/txt_contactname" />
 
@@ -48,6 +66,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:layout_marginLeft="88dp"
         android:layout_below="@+id/layout_contact"
         android:background="@color/grey"/>
 
