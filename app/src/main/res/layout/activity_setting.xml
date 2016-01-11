@@ -16,8 +16,9 @@
             android:textStyle="bold" />
 
         <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
+            android:layout_width="50dp"
+            android:layout_height="37dp"
+            android:layout_marginTop="-4dp"
             android:inputType="numberSigned"
             android:ems="10"
             android:layout_marginRight="@dimen/eight_dp"
@@ -25,7 +26,6 @@
             android:textColor="@color/black"
             android:id="@+id/editText_reminderDays"
             android:textSize="@dimen/sixteen_sp"
-            android:layout_toRightOf="@+id/setting_remind_me"
             android:layout_toLeftOf="@+id/setting_days" />
 
         <TextView
