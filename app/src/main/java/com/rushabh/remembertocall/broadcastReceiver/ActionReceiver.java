@@ -23,11 +23,17 @@ public class ActionReceiver extends BroadcastReceiver {
             sharedPreferenceHelper = new SharedPreferenceHelper(context);
 
             Calendar calendar = Calendar.getInstance();
-            calendar.setTimeInMillis(System.currentTimeMillis());
+            //calendar.setTimeInMillis(System.currentTimeMillis());
             calendar.set(Calendar.HOUR_OF_DAY, sharedPreferenceHelper.readNotificationHour());
             calendar.set(Calendar.MINUTE, sharedPreferenceHelper.readNotificationMinute());
 
+            //Log.d("time", calendar.getTime().toString());
+            if(calendar.getTimeInMillis() < System.currentTimeMillis()){
+                calendar.add(Calendar.DAY_OF_YEAR , 1);
+                //Log.v("time", calendar.getTime().toString());
+            }
 
+           // Log.d("action" , intent.getAction().toString());
             // With setInexactRepeating(), you have to use one of the AlarmManager interval
             // constants--in this case, AlarmManager.INTERVAL_DAY.
             AlarmManager alarmMgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
@@ -37,7 +43,7 @@ public class ActionReceiver extends BroadcastReceiver {
             updateDatabaseIntent = PendingIntent.getBroadcast(context, UPDATE_DATABASE_REQUEST_CODE, updateIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
            alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                    AlarmManager.INTERVAL_DAY, updateDatabaseIntent);
+                   AlarmManager.INTERVAL_DAY, updateDatabaseIntent);
 
         }
     }
