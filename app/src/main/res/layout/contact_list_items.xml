@@ -18,16 +18,10 @@
         <RelativeLayout
             android:id="@+id/rl_initial"
             android:layout_width="40dp"
-            android:layout_height="fill_parent"
-            android:background="@drawable/ic_circle">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="R"
-                android:textColor="@color/appBackground"
-                android:textSize="@dimen/sixteen_sp"
-                android:id="@+id/inital"
-                android:layout_centerInParent="true" />
+            android:layout_height="fill_parent">
+            <ImageView android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:id="@+id/contact_initial"/>
 
         </RelativeLayout>
 

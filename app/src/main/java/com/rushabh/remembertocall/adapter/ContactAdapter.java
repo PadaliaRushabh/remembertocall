@@ -5,6 +5,9 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.CallLog;
@@ -16,9 +19,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.amulyakhare.textdrawable.TextDrawable;
+import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.rushabh.remembertocall.MainActivity;
 import com.rushabh.remembertocall.R;
 import com.rushabh.remembertocall.model.Contact;
@@ -149,6 +155,20 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.CustomVi
         TextView contactName = holder.contactName;
         TextView lastCallDate = holder.lastCallDate;
         TextView lastCallSince = holder.lastCallSince;
+        ImageView letterImage = holder.letterImage;
+
+        ColorGenerator generator = ColorGenerator.MATERIAL; // or use DEFAULT
+        int color = generator.getColor(contactName.getText().toString());
+        TextDrawable drawable = TextDrawable.builder()
+                .beginConfig()
+                .textColor(Color.WHITE)
+                .useFont(Typeface.SANS_SERIF)
+                .fontSize(80)
+                .toUpperCase()
+                .endConfig()
+                .buildRound(contactName.getText().toString().charAt(0)+"", Color.RED);
+
+        letterImage.setImageDrawable(drawable);
 
         //setTextViewMarginTop(contactName);
 
@@ -191,12 +211,14 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.CustomVi
     class CustomViewHolder extends  RecyclerView.ViewHolder{
 
         public TextView contactName, lastCallDate, lastCallSince;
+        public ImageView letterImage;
 
         public CustomViewHolder(View itemView){
             super(itemView);
             contactName = (TextView) itemView.findViewById(R.id.txt_contactname);
             lastCallDate = (TextView) itemView.findViewById(R.id.txt_lastcalldate);
             lastCallSince = (TextView) itemView.findViewById(R.id.txt_lastcallsince);
+            letterImage = (ImageView) itemView.findViewById(R.id.contact_initial);
 
         }
     }

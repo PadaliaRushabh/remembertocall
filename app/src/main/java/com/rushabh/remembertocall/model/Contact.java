@@ -1,6 +1,10 @@
 package com.rushabh.remembertocall.model;
 
 import android.util.Log;
+import android.widget.ImageView;
+
+import com.amulyakhare.textdrawable.TextDrawable;
+import com.amulyakhare.textdrawable.util.ColorGenerator;
 
 /**
  * Created by rushabh on 17/12/15.
@@ -13,18 +17,30 @@ public class Contact {
     private int lastCallDuration;
     private  String lookUpKey;
 
+    private ImageView letter;
+    private TextDrawable drawable;
+    private ColorGenerator generator;
+
+
     public Contact(long ID , String lookUpKey ,String displayName, long daySinceLastCall, int lastCallDuration){
         this.setID(ID);
         this.setLookUpKey(lookUpKey);
         this.setDisplayName(displayName);
         this.setDaySinceLastCall(daySinceLastCall);
         this.setLastCallDuration(lastCallDuration);
+
+        int color = generator.getColor(ID+"");
+        drawable = TextDrawable.builder().buildRound(this.getDisplayName().charAt(0)+"", color);
+        letter.setImageDrawable(drawable);
     }
 
     public Contact(){
 
     }
 
+    public ImageView getLetterImage(){
+        return letter;
+    }
 
     public String getDisplayName() {
         return displayName;

@@ -5,6 +5,7 @@ import android.content.ContentUris;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.CallLog;
@@ -21,9 +22,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amulyakhare.textdrawable.TextDrawable;
+import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.melnykov.fab.FloatingActionButton;
 import com.rushabh.remembertocall.service.UpdateDatabaseService;
 import com.rushabh.remembertocall.adapter.ContactAdapter;
@@ -63,6 +67,10 @@ public class MainActivity extends AppCompatActivity {
     TextView noContact;
     ContactAdapter adapter;
 
+    TextDrawable drawable;
+    ImageView image;
+    ColorGenerator generator;
+
     SharedPreferenceHelper sharedPreferenceHelper;
     ArrayList<Contact> contacts;
 
@@ -73,6 +81,9 @@ public class MainActivity extends AppCompatActivity {
 
         sql =  new SqlLiteHelper(getApplicationContext());
         sharedPreferenceHelper = new SharedPreferenceHelper(getApplicationContext());
+        image = (ImageView) findViewById(R.id.contact_initial);
+        generator = ColorGenerator.MATERIAL; // or use DEFAULT
+
 
         widgetInit();
 
@@ -111,6 +122,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         }));
+
+
     }
 
     private void AdapterInit() {
@@ -202,6 +215,15 @@ public class MainActivity extends AppCompatActivity {
                 Contact contact = getContact(cursor);
 
                 boolean contactAddedSuccess = adapter.addContact(contact);
+
+               /* int color = generator.getColor(contact.getID()+"");
+
+                drawable = TextDrawable.builder()
+                        .buildRound(contact.getDisplayName().charAt(0)+"", color);
+
+
+                image.setImageDrawable(drawable);*/
+
                 if (contactAddedSuccess) {
                     adapter.notifyDataSetChanged();
                     adapter.viewVisibilityToggle(contactListView, noContact);
