@@ -21,15 +21,6 @@
         android:layout_height="match_parent"
         />
 
-    <com.melnykov.fab.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_add_white_24dp"
-        fab:fab_colorNormal="@color/colorPrimary"
-        fab:fab_colorPressed="@color/colorPrimaryDark" />
 
     <TextView
         android:layout_width="fill_parent"
@@ -46,4 +37,14 @@
         android:gravity="center_horizontal" />
 
 
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/fab"
+        android:src="@android:drawable/ic_input_add"
+        fab:borderWidth="2dp"
+        fab:fabSize="normal"
+        android:tint="@android:color/white"
+        android:layout_gravity="bottom|end"
+        fab:rippleColor="@color/colorPrimaryDark"/>
 </FrameLayout>

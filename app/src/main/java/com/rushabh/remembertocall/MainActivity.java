@@ -11,6 +11,7 @@ import android.os.Build;
 import android.provider.CallLog;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,7 +29,6 @@ import android.widget.Toast;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
-import com.melnykov.fab.FloatingActionButton;
 import com.rushabh.remembertocall.service.UpdateDatabaseService;
 import com.rushabh.remembertocall.adapter.ContactAdapter;
 import com.rushabh.remembertocall.model.Contact;
@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void ActionButtonInit() {
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.attachToRecyclerView(contactListView);
+        //fab.attachToRecyclerView(contactListView);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
