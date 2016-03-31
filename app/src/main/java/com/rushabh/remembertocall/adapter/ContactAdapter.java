@@ -166,7 +166,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.CustomVi
                 .fontSize(80)
                 .toUpperCase()
                 .endConfig()
-                .buildRound(contactName.getText().toString().charAt(0)+"", Color.RED);
+                .buildRound(contactName.getText().toString().charAt(0)+"",color);
 
         letterImage.setImageDrawable(drawable);
 
