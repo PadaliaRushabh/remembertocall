@@ -158,7 +158,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.CustomVi
         ImageView letterImage = holder.letterImage;
 
         ColorGenerator generator = ColorGenerator.MATERIAL; // or use DEFAULT
-        int color = generator.getColor(contactName.getText().toString());
+        int color = generator.getColor(contacts.get(position).getDisplayName());
         TextDrawable drawable = TextDrawable.builder()
                 .beginConfig()
                 .textColor(Color.WHITE)
@@ -166,7 +166,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.CustomVi
                 .fontSize(80)
                 .toUpperCase()
                 .endConfig()
-                .buildRound(contactName.getText().toString().charAt(0)+"",color);
+                .buildRound(contacts.get(position).getDisplayName().charAt(0)+"",color);
 
         letterImage.setImageDrawable(drawable);
 
