@@ -9,4 +9,3 @@ version 1.0 is uploaded to google play
 Google Play Link: https://play.google.com/store/apps/details?id=com.rushabh.remembertocall
 
 ![Launcher Screen](https://raw.github.com/padaliarushabh/remembertocall/master/public/main.png)
-![Setting Screen](https://raw.github.com/padaliarushabh/remembertocall/master/public/setting.png)
