@@ -7,3 +7,6 @@ Remember to call is a great way to keep in touch!
 version 1.0 is uploaded to google play
 
 Google Play Link: https://play.google.com/store/apps/details?id=com.rushabh.remembertocall
+
+![Launcher Screen](https://raw.github.com/padaliarushabh/remembertocall/master/RememberToCall_Public_Files/main.png)
+![Setting Screen](https://raw.github.com/padaliarushabh/remembertocall/master/RememberToCall_Public_Files/setting.png)
