@@ -26,19 +26,17 @@
 
     <string name="preference_key_reminder_is_refresh_required">preference_key_reminder_is_refresh_required</string>
 
-    <string name="about_app_developers"> This app was made by\n
-        1) <a href="https://au.linkedin.com/in/padaliarushabh"> Rushabh Padalia</a>\n
-        2) <a href="https://au.linkedin.com/in/padaliarushabh"> Pritam Soni</a>
+    <string name="about_app_developers">Remember To Call was made by <a href="https://au.linkedin.com/in/padaliarushabh">Rushabh Padalia</a>\n\nSpecial Thanks to <a href="https://in.linkedin.com/in/pritam-soni-51287484">Pritam Soni</a> for UI enhancements
     </string>
+
 
 
     <string name="license">
         The following software may be included in this product: joda time. This software contains the following license\nApache License\nVersion 2.0, January 2004\nhttp://www.apache.org/licenses/\n
-        \nThe following software may be included in this product: FloatingActionButton. This software contains the following license\nThe MIT License (MIT)Copyright (c) 2014 Oleksandr Melnykov
     </string>
-    <string name="copyright">Copyright 2015 Rushabh Padalia</string>
+    <string name="copyright">Copyright 2016 Rushabh Padalia</string>
     <string name="action_about">About</string>
-    <string name="about_app_description">Remember to Call is a simple app to help you track how long it has been since you have contacted your contact. Remember to call is a great way to keep in touch!</string>
+    <string name="about_app_description">Remember To Call is a simple app to help you track how long it has been since you have contacted your contact. Remember To Call is a great way to keep in touch!</string>
     <string name="setting_about">About</string>
 </resources>
 

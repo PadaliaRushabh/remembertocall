@@ -22,7 +22,7 @@
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Version 1.1"
+        android:text="Version 1.0.1"
         android:textColor="@color/black"
         android:textSize="@dimen/sixteen_sp"
         android:gravity="center_horizontal"
@@ -44,14 +44,12 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:autoLink="web"
             android:textColor="@color/grey"
             android:textSize="@dimen/sixteen_sp"
             android:layout_marginTop="@dimen/eight_dp"
             android:text="@string/about_app_developers"
             android:id="@+id/about_app_developers"
             android:layout_below="@+id/about_app_description" />
-
 
         <TextView
             android:layout_width="wrap_content"
