@@ -32,7 +32,7 @@
 
 
     <string name="license">
-        The following software may be included in this product: joda time. This software contains the following license\nApache License\nVersion 2.0, January 2004\nhttp://www.apache.org/licenses/\n
+        The following software may be included in this product: joda time. This software contains the following license\nApache License\nVersion 2.0, January 2004\nhttp://www.apache.org/licenses/\nThe following software may be included in this product: TextDrawable. This software contains the following license\nThe MIT License (MIT), 2014
     </string>
     <string name="copyright">Copyright 2016 Rushabh Padalia</string>
     <string name="action_about">About</string>
