@@ -2,6 +2,7 @@ package com.rushabh.remembertocall.recyclerViewTouchHelper;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -54,6 +55,7 @@ public class ItemClickListener implements RecyclerView.OnItemTouchListener {
 
     @Override
     public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+
         View childView = rv.findChildViewUnder(e.getX(), e.getY());
         if(childView!=null && this.onItemClickListener!=null && gestureDetector.onTouchEvent(e)){
             onItemClickListener.onItemClick(childView, rv.getChildAdapterPosition(childView));
