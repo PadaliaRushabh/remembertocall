@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int PERMISSION_FOR_DURATION_DENIED = -2;
     private static final int CANNOT_ASK_FOR_PERMISSION_ON_RUNTIME = -3;
     private static final int REQUEST_READ_CONTACT = 20;
+    private static final int REQUEST_PHONE = 21;
     private static final int DEFAULT_REMINDER = 15 ;
     private static final int DEFAULT_HOUR = 1 ; //1 a.m
     private static final int DEFAULT_MINUTE = 00 ;
@@ -93,6 +94,8 @@ public class MainActivity extends AppCompatActivity {
         ActionButtonInit();
 
         setDatabaseServiceIfFirstLaunch();
+
+        requestPhonePermission();
 
     }
 
@@ -139,6 +142,19 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(Intent.ACTION_VIEW, contactUri);
         startActivity(intent);
         contactClickedPosition = -1;
+    }
+
+    private void requestPhonePermission(){
+        //Get Look_UP URI
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED ){
+                if(shouldShowRequestPermissionRationale(Manifest.permission.READ_PHONE_STATE)){
+                    Toast.makeText(getApplicationContext(), "Permission needed to keep track of days since last call" , Toast.LENGTH_SHORT).show();
+                }
+
+                requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_PHONE);
+            }
+        }
     }
 
     private void AdapterInit() {
