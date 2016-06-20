@@ -52,12 +52,14 @@ public class MainActivity extends AppCompatActivity {
     private static final int NEVER_CONTACTED = -1;
     private static final int PERMISSION_FOR_DURATION_DENIED = -2;
     private static final int CANNOT_ASK_FOR_PERMISSION_ON_RUNTIME = -3;
+    private static final int REQUEST_READ_CONTACT = 20;
     private static final int DEFAULT_REMINDER = 15 ;
     private static final int DEFAULT_HOUR = 1 ; //1 a.m
     private static final int DEFAULT_MINUTE = 00 ;
     Uri uriContact;
     Cursor cursor;
     int id;
+    int contactClickedPosition = -1;
     String displayName, lookUpKey;
     long daySinceLastCall;
     int lastCallDuration;
@@ -99,24 +101,44 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(View view, int position) {
 
+                contactClickedPosition = position;
                 //Get Look_UP URI
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (checkSelfPermission(Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED){
+                        if (contactClickedPosition != -1) {
+                            openClickedContact(contactClickedPosition);
+                        }
+                    }else{
+                        if(shouldShowRequestPermissionRationale(Manifest.permission.READ_CONTACTS)){
+                            Toast.makeText(getApplicationContext(), "Read Contact permission is needed so that you can directly click on the contact and call" , Toast.LENGTH_SHORT).show();
+                        }
 
-                Cursor cursor_lookup = adapter.getCursorFromLookUpKey(adapter.getItem(position).getID(), adapter.getItem(position).getLookUpKey());
-                Contact c = null;
-                try {
-                    c = getContact(cursor_lookup);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                        requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, REQUEST_READ_CONTACT);
+                    }
+                }else{
+                    openClickedContact(contactClickedPosition);
                 }
 
-                Uri contactUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, c.getID());
-
-                Intent intent = new Intent(Intent.ACTION_VIEW, contactUri);
-                startActivity(intent);
             }
         }));
 
 
+    }
+
+    private void openClickedContact(int position) {
+        Cursor cursor_lookup = adapter.getCursorFromLookUpKey(adapter.getItem(position).getID(), adapter.getItem(position).getLookUpKey());
+        Contact c = null;
+        try {
+            c = getContact(cursor_lookup);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Uri contactUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, c.getID());
+
+        Intent intent = new Intent(Intent.ACTION_VIEW, contactUri);
+        startActivity(intent);
+        contactClickedPosition = -1;
     }
 
     private void AdapterInit() {
@@ -297,14 +319,22 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
 
         switch (requestCode){
             case MY_PERMISSIONS_REQUEST_CALL_CONTACTS:
                 getDuration(displayName);
                 break;
+            case REQUEST_READ_CONTACT:
+                if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    openClickedContact(contactClickedPosition);
+                }else{
+                    Toast.makeText(getApplicationContext(), "Read Contact Permission was not granted", Toast.LENGTH_LONG).show();
+                }
+                break;
             default:
                 lastCallDuration = PERMISSION_FOR_DURATION_DENIED;
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 
